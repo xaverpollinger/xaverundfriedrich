@@ -12,6 +12,17 @@
     <header class="site-header">
       <nav class="site-nav" aria-label="Hauptnavigation">
         <ul role="list">
+
+          {# Zurück-Pfeil: nur sichtbar wenn es eine übergeordnete Seite gibt #}
+          {% set parent = page.url | parentUrl %}
+          {% if parent %}
+            <li class="nav-back">
+              <a href="{{ parent }}" aria-label="Zurück">
+                {% include "icons/arrow-big-left.svg" %}
+              </a>
+            </li>
+          {% endif %}
+
           {% for item in nav %}
             <li>
               <a href="{{ item.url }}"
@@ -20,6 +31,7 @@
               </a>
             </li>
           {% endfor %}
+
         </ul>
       </nav>
     </header>
