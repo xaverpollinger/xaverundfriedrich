@@ -67,42 +67,61 @@
   margin-bottom: var(--space-12);
 }
 
-/* Hero: Cover links, Titel rechts — nebeneinander ab ~520px */
+/* Hero: Cover links, Headline-Block rechts */
 .projekt-detail__hero {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-6);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-10);
 }
 
 @media (min-width: 520px) {
   .projekt-detail__hero {
     grid-template-columns: 1fr 1fr;
-    align-items: end; /* Titel hängt am unteren Rand des Bildes */
+    align-items: end;
   }
 }
 
-/* Cover-Bild: volle Spaltenbreite, kein Überlaufen */
-.projekt-detail__cover picture,
+/* Cover: feste Höhe, Bild füllt den Rahmen ohne Verzerrung */
+.projekt-detail__cover {
+  height: 384px;
+  overflow: hidden;
+}
+
+.projekt-detail__cover picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .projekt-detail__cover img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   display: block;
 }
 
-/* Titel-Bereich: Abstand zum Cover auf Mobil */
-.projekt-detail__headline h1 {
-  /* Keine extra margin — align-items: end im Grid erledigt die Ausrichtung */
+/* Headline-Block: alle Infos am unteren Rand gestapelt */
+.projekt-detail__headline {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* alles nach unten drücken */
+  gap: var(--space-3);
+  min-height: 384px; /* gleiche Höhe wie Cover */
+}
+
+/* Fallback ohne Cover: volle Breite, gleiche Höhe wie Hero */
+.projekt-detail__headline--no-cover {
+  max-width: var(--container-text);
 }
 
 .projekt-detail__tags {
-  margin-top: var(--space-3);
   color: var(--color-fg-muted);
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
 }
 
-/* Lead-Text und Meta unterhalb des Heros */
 .projekt-detail__lead {
   max-width: var(--container-text);
 }
@@ -111,7 +130,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
-  margin-top: var(--space-4);
   color: var(--color-fg-muted);
 }
 
@@ -120,9 +138,11 @@
   margin-right: var(--space-4);
 }
 
-/* Body: Markdown-Content */
+/* Body: Markdown-Content — zentriert unter dem Header */
 .projekt-detail__body {
   max-width: var(--container-text);
+  margin-inline: auto;
+  margin-top: var(--space-32);
 }
 
 .projekt-detail__body > * + * {

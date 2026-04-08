@@ -5,48 +5,69 @@ bodyClass: page
 <div class="container">
   <article class="projekt-detail">
 
-    {# --- Header: Cover links, Titel rechts --- #}
     <header class="projekt-detail__header">
 
       {% if cover %}
         {% set coverSrc = cover | toSrcPath %}
         <div class="projekt-detail__hero">
+
           <div class="projekt-detail__cover">
             {% image coverSrc, title, "(min-width: 1152px) 560px, 50vw" %}
           </div>
+
           <div class="projekt-detail__headline">
             <h1>{{ title }}</h1>
+
             {% if tags and tags.length %}
               <p class="p-xs projekt-detail__tags">
                 {% for tag in tags %}{{ tag }}{% if not loop.last %} · {% endif %}{% endfor %}
               </p>
             {% endif %}
+
+            {% if description %}
+              <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
+            {% endif %}
+
+            {% if year or client or role %}
+              <p class="p-xs projekt-detail__meta">
+                {% if year %}<span>{{ year }}</span>{% endif %}
+                {% if client %}<span>{{ client }}</span>{% endif %}
+                {% if role %}<span>{{ role }}</span>{% endif %}
+              </p>
+            {% endif %}
           </div>
+
         </div>
+
       {% else %}
-        <h1>{{ title }}</h1>
-        {% if tags and tags.length %}
-          <p class="p-xs projekt-detail__tags" style="margin-top: var(--space-3);">
-            {% for tag in tags %}{{ tag }}{% if not loop.last %} · {% endif %}{% endfor %}
-          </p>
-        {% endif %}
-      {% endif %}
 
-      {% if description %}
-        <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
-      {% endif %}
+        {# Fallback ohne Cover: alles untereinander #}
+        <div class="projekt-detail__headline projekt-detail__headline--no-cover">
+          <h1>{{ title }}</h1>
 
-      {% if year or client or role %}
-        <p class="p-xs projekt-detail__meta">
-          {% if year %}<span>{{ year }}</span>{% endif %}
-          {% if client %}<span>{{ client }}</span>{% endif %}
-          {% if role %}<span>{{ role }}</span>{% endif %}
-        </p>
+          {% if tags and tags.length %}
+            <p class="p-xs projekt-detail__tags">
+              {% for tag in tags %}{{ tag }}{% if not loop.last %} · {% endif %}{% endfor %}
+            </p>
+          {% endif %}
+
+          {% if description %}
+            <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
+          {% endif %}
+
+          {% if year or client or role %}
+            <p class="p-xs projekt-detail__meta">
+              {% if year %}<span>{{ year }}</span>{% endif %}
+              {% if client %}<span>{{ client }}</span>{% endif %}
+              {% if role %}<span>{{ role }}</span>{% endif %}
+            </p>
+          {% endif %}
+        </div>
+
       {% endif %}
 
     </header>
 
-    {# --- Body: Markdown-Content --- #}
     <div class="projekt-detail__body">
       {{ content | safe }}
     </div>
