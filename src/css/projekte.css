@@ -1,0 +1,111 @@
+/* ============================================
+   PROJEKTE — Liste & Detail
+   ============================================ */
+
+
+/* --- Projektliste --- */
+.projekt-liste {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-10);
+}
+
+.projekt-item {
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+}
+
+/* Letztes Element bekommt auch eine Linie unten */
+.projekt-item:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.projekt-item__link {
+  display: block;
+  padding-block: var(--space-6);
+  text-decoration: none;
+  transition: padding-left var(--transition-base);
+}
+
+.projekt-item__link:hover {
+  padding-left: var(--space-3); /* subtiler Einzug beim Hover */
+}
+
+.projekt-item__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.projekt-item__title {
+  font-size: var(--type-h3);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-tight);
+  color: var(--color-fg);
+}
+
+.projekt-item__year {
+  color: var(--color-fg-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.projekt-item__desc {
+  margin-top: var(--space-2);
+  max-width: var(--container-text);
+}
+
+
+/* --- Projektdetail --- */
+.projekt-detail {
+  max-width: var(--container-max);
+}
+
+.projekt-detail__header {
+  margin-bottom: var(--space-12);
+}
+
+.projekt-detail__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  color: var(--color-fg-muted);
+}
+
+/* Punkte zwischen den Meta-Infos */
+.projekt-detail__meta span + span::before {
+  content: "·";
+  margin-right: var(--space-4);
+}
+
+.projekt-detail__lead {
+  margin-top: var(--space-4);
+  max-width: var(--container-text);
+}
+
+.projekt-detail__cover {
+  margin-bottom: var(--space-12);
+}
+
+/* Bild: volle Breite, keine Beschneidung */
+.projekt-detail__cover img {
+  width: 100%;
+  height: auto;
+}
+
+/* Typografischer Rhythmus im Content-Bereich */
+.projekt-detail__body {
+  max-width: var(--container-text);
+}
+
+.projekt-detail__body > * + * {
+  margin-top: var(--space-6);
+}
+
+.projekt-detail__body h2 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-4);
+}

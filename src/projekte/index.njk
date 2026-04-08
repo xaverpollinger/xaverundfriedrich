@@ -3,5 +3,27 @@ layout: page.njk
 title: Projekte
 description: "Ausgewählte UX/UI-Projekte von Xaver Friedrich."
 ---
+
 <h1>Projekte</h1>
-<p class="p-m-bold">Ausgewählte Arbeiten — kommt bald.</p>
+
+{% set projekte = collections.projekte %}
+
+{% if projekte.length %}
+  <ul class="projekt-liste" role="list">
+    {% for projekt in projekte %}
+      <li class="projekt-item">
+        <a href="{{ projekt.url }}" class="projekt-item__link">
+          <div class="projekt-item__main">
+            <span class="projekt-item__title">{{ projekt.data.title }}</span>
+            <span class="projekt-item__year p-xs">{{ projekt.data.year }}</span>
+          </div>
+          {% if projekt.data.description %}
+            <p class="projekt-item__desc p-s">{{ projekt.data.description }}</p>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="p-m-bold">Kommt bald.</p>
+{% endif %}

@@ -41,6 +41,14 @@ module.exports = function (eleventyConfig) {
     return "/" + parts.join("/") + "/";
   });
 
+  // Projekte-Collection: alle Markdown-Dateien in src/projekte/,
+  // nach Jahr absteigend sortiert (neueste zuerst).
+  eleventyConfig.addCollection("projekte", (api) =>
+    api
+      .getFilteredByGlob("src/projekte/*.md")
+      .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0))
+  );
+
   // Datumsfilter für Footer-Copyright: {{ '' | date('yyyy') }} → "2026"
   eleventyConfig.addFilter("date", (value, format) => {
     const d = value ? new Date(value) : new Date();

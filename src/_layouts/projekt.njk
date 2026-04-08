@@ -1,0 +1,31 @@
+---
+layout: base.njk
+bodyClass: page
+---
+<div class="container">
+  <article class="projekt-detail">
+
+    <header class="projekt-detail__header">
+      <p class="p-xs projekt-detail__meta">
+        {% if year %}<span>{{ year }}</span>{% endif %}
+        {% if client %}<span>{{ client }}</span>{% endif %}
+        {% if role %}<span>{{ role }}</span>{% endif %}
+      </p>
+      <h1>{{ title }}</h1>
+      {% if description %}
+        <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
+      {% endif %}
+    </header>
+
+    {% if cover %}
+      <div class="projekt-detail__cover">
+        {% image cover, title, "(min-width: 1152px) 1152px, 100vw" %}
+      </div>
+    {% endif %}
+
+    <div class="projekt-detail__body">
+      {{ content | safe }}
+    </div>
+
+  </article>
+</div>
