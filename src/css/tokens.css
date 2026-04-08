@@ -1,0 +1,107 @@
+/* ============================================
+   DESIGN TOKENS
+   Alle visuellen Variablen an einem Ort.
+   Änderungen hier wirken sich global aus.
+   ============================================ */
+
+:root {
+
+  /* --- Farbe --- */
+  --color-bg:       #ffffff;
+  --color-fg:       #0d0d0d;   /* leicht off-black — angenehmer als reines Schwarz */
+  --color-fg-muted: #6b6b6b;   /* sekundärer Text, Metadaten */
+  --color-border:   #e8e8e8;   /* subtile Trennlinien */
+
+
+  /* --- Font Family --- */
+  --font: "Tabular", ui-monospace, "Cascadia Code",
+          "Courier New", Courier, monospace;
+  /*
+    Systemfonts als Fallback, bis tabular-variable.woff2 geladen ist.
+    Tauscht nur diese eine Variable aus, wenn die Schrift wechseln sollte.
+  */
+
+
+  /* --- Font Weights (Tabular Variable Achse) --- */
+  --weight-light:   300;
+  --weight-regular: 400;
+  --weight-medium:  500;
+  /*
+    Tabular ist eine Variable Font — das bedeutet: eine einzige Datei
+    enthält alle Gewichte als kontinuierliche Achse (wght 300–700).
+    Wir mapppen die drei Stile, die wir nutzen, auf benannte Tokens.
+  */
+
+
+  /* --- Type Scale — Desktop-Zielwerte deines Design-Systems ---
+    H1–H3:    fluid via clamp() — skalieren smooth mit dem Viewport.
+    p-Stufen: fix — bei kleinen Größen bringt fluid kaum Mehrwert.
+
+    Formel fluid (Viewport 375px → 1440px):
+    preferred = intercept + slope * 1vw
+    slope     = (max_px - min_px) / (1440 - 375)
+    intercept = min_px - slope * 375
+  */
+
+  /* H1 — 3.5rem (56px) max, ~2rem (32px) min */
+  --type-h1: clamp(2rem, 1.472rem + 2.254vw, 3.5rem);
+
+  /* H2 — 2.25rem (36px) max, ~1.375rem (22px) min */
+  --type-h2: clamp(1.375rem, 1.067rem + 1.315vw, 2.25rem);
+
+  /* H3 — 1.5rem (24px) max, ~1.125rem (18px) min */
+  --type-h3: clamp(1.125rem, 0.993rem + 0.563vw, 1.5rem);
+
+  /* p—m-bold — 1.25rem / Medium Italic / Intro-Text, Leads, Labels */
+  --type-p-m-bold: 1.25rem;
+
+  /* p—m — 1rem / Regular / Standard-Fließtext */
+  --type-p-m: 1rem;
+
+  /* p—s — 1rem / Regular / Sekundärer Text (gleiche Größe, andere Funktion) */
+  --type-p-s: 1rem;
+
+  /* p—xs — 0.875rem / Light Italic / Metadaten, Bildunterschriften, Captions */
+  --type-p-xs: 0.875rem;
+
+
+  /* --- Line Heights --- */
+  --line-height-tight: 1.1;   /* Headings */
+  --line-height-snug:  1.3;   /* Subheadings, Lead-Text */
+  --line-height-base:  1.6;   /* Fließtext */
+  --line-height-loose: 1.8;   /* Lange Artikel */
+
+
+  /* --- Letter Spacing --- */
+  --letter-spacing-tight:  -0.02em;  /* große Headings */
+  --letter-spacing-normal:  0.00em;  /* Fließtext */
+  --letter-spacing-wide:    0.06em;  /* Labels, Caps */
+  --letter-spacing-wider:   0.12em;  /* Overlines, Tags */
+
+
+  /* --- Spacing (4px-Raster) --- */
+  --space-1:   0.25rem;  /*   4px */
+  --space-2:   0.50rem;  /*   8px */
+  --space-3:   0.75rem;  /*  12px */
+  --space-4:   1.00rem;  /*  16px */
+  --space-5:   1.25rem;  /*  20px */
+  --space-6:   1.50rem;  /*  24px */
+  --space-8:   2.00rem;  /*  32px */
+  --space-10:  2.50rem;  /*  40px */
+  --space-12:  3.00rem;  /*  48px */
+  --space-16:  4.00rem;  /*  64px */
+  --space-20:  5.00rem;  /*  80px */
+  --space-24:  6.00rem;  /*  96px */
+  --space-32:  8.00rem;  /* 128px */
+
+
+  /* --- Layout --- */
+  --container-max:  72rem;  /* ~1152px — Seitenbreite */
+  --container-text: 44rem;  /*  ~704px — Lesebreite für Fließtext */
+
+
+  /* --- Übergänge --- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+
+}

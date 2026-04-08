@@ -1,0 +1,209 @@
+/* ============================================
+   BASE STYLES
+   Reset + Typografie-Defaults.
+   Keine Layouts, keine Komponenten — nur
+   die "Sprache" des Designs definieren.
+   ============================================ */
+
+
+/* --- @font-face für Tabular (Variable Font) ---
+
+   SCHRITT-FÜR-SCHRITT ANLEITUNG (weiter unten erklärt):
+   1. fontshare.com/fonts/tabular → "Download Family" klicken
+   2. ZIP entpacken → im Ordner "fonts/variable/" zwei Dateien suchen:
+        Tabular[wght].ttf          ← aufrecht (Regular, Medium, Light…)
+        Tabular-Italic[wght].ttf   ← kursiv
+      Falls die Dateien anders heißen: Namen unten anpassen.
+   3. Beide Dateien in src/fonts/ ablegen
+   4. Auf woff2 konvertieren (z.B. cloudconvert.com, Format: TTF → WOFF2)
+      → als tabular-variable.woff2 und tabular-variable-italic.woff2 speichern
+   5. Die folgenden drei Kommentarzeichen entfernen: (Zeilen 27, 41, 43)
+
+*/
+
+@font-face {
+  font-family: "Tabular";
+  src: url("/fonts/Tabular-Variable.woff2") format("woff2");
+  font-weight: 300 700;   /* Gewichts-Achse: von Light bis Bold */
+  font-style: normal;
+  font-display: swap;     /* Fallback-Font sofort anzeigen, Tabular nachladen */
+}
+
+@font-face {
+  font-family: "Tabular";
+  src: url("/fonts/Tabular-VariableItalic.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+/* --- Reset --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+  /* Verhindert iOS-Zoom bei Orientierungswechsel */
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  /* Glättere Schriftdarstellung auf Retina-Displays */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--type-p-m);
+  font-weight: var(--weight-regular);
+  font-style: normal;
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+
+/* --- Headings ---
+   H1–H3: Medium Italic — dein Design-System.
+   H4–H6: Regular aufrecht — Fallback für semantische Hierarchie
+   ohne eigenen Design-Token.
+*/
+h1, h2, h3 {
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+h4, h5, h6 {
+  font-weight: var(--weight-medium);
+  font-style: normal;
+  line-height: var(--line-height-snug);
+}
+
+h1 { font-size: var(--type-h1); }
+h2 { font-size: var(--type-h2); }
+h3 { font-size: var(--type-h3); }
+h4 { font-size: var(--type-p-m-bold); }
+h5 { font-size: var(--type-p-m); }
+h6 { font-size: var(--type-p-s); }
+
+
+/* --- Fließtext --- */
+p {
+  font-size: var(--type-p-m);
+  max-width: var(--container-text);
+}
+
+p + p {
+  margin-top: var(--space-4);
+}
+
+
+/* --- Typ-Hilfsklassen (entsprechen deinem Design-System) ---
+   Verwendung: <p class="p-m-bold">, <span class="p-xs"> usw.
+*/
+.p-m-bold {
+  font-size: var(--type-p-m-bold);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-snug);
+}
+
+.p-m {
+  font-size: var(--type-p-m);
+  font-weight: var(--weight-regular);
+  font-style: normal;
+  line-height: var(--line-height-base);
+}
+
+.p-s {
+  font-size: var(--type-p-s);
+  font-weight: var(--weight-regular);
+  font-style: normal;
+  line-height: var(--line-height-base);
+  color: var(--color-fg-muted);
+}
+
+.p-xs {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  color: var(--color-fg-muted);
+}
+
+
+/* --- Links --- */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness var(--transition-fast);
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+
+/* --- Inline-Elemente --- */
+strong { font-weight: var(--weight-medium); }
+em     { font-style: italic; }
+
+small {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+}
+
+
+/* --- Listen --- */
+ul, ol {
+  padding-left: var(--space-6);
+}
+
+li + li {
+  margin-top: var(--space-1);
+}
+
+
+/* --- Medien --- */
+img, video, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* --- Fokus-States (Accessibility — niemals entfernen) --- */
+:focus-visible {
+  outline: 2px solid var(--color-fg);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* --- Horizontale Linie --- */
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+
+/* --- Code (inline) --- */
+code {
+  font-family: var(--font);
+  font-size: var(--type-p-xs);
+  background-color: color-mix(in srgb, var(--color-fg) 6%, transparent);
+  padding: 0.1em 0.3em;
+  border-radius: 2px;
+}
