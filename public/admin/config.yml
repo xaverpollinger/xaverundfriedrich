@@ -1,0 +1,11 @@
+backend:
+  name: github
+  repo: xaverpollinger/xaverfriedrich
+  branch: main
+
+# Medien landen in src/assets/images, werden unter /assets/images erreichbar
+media_folder: "src/assets/images"
+public_folder: "/assets/images"
+
+# Collections werden in Phase 4 (Projekte) und Phase 5 (Blog) ergänzt
+collections: []
