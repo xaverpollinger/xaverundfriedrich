@@ -29,6 +29,15 @@ module.exports = function (eleventyConfig) {
   // Bild-Shortcode registrieren (async!)
   eleventyConfig.addAsyncShortcode("image", imageShortcode);
 
+  // toSrcPath-Filter: konvertiert öffentliche Bildpfade in Quellpfade für
+  // das Eleventy Image Plugin.
+  // "/assets/images/foo.jpg" → "src/assets/images/foo.jpg"
+  eleventyConfig.addFilter("toSrcPath", (url) => {
+    if (!url) return url;
+    if (url.startsWith("/")) return "src" + url;
+    return url;
+  });
+
   // parentUrl-Filter: berechnet die übergeordnete URL für den Zurück-Pfeil.
   // "/"              → null        (Home hat keine Eltern-Seite)
   // "/projekte/"     → "/"

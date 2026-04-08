@@ -67,36 +67,60 @@
   margin-bottom: var(--space-12);
 }
 
+/* Hero: Cover links, Titel rechts — nebeneinander ab ~520px */
+.projekt-detail__hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+@media (min-width: 520px) {
+  .projekt-detail__hero {
+    grid-template-columns: 1fr 1fr;
+    align-items: end; /* Titel hängt am unteren Rand des Bildes */
+  }
+}
+
+/* Cover-Bild: volle Spaltenbreite, kein Überlaufen */
+.projekt-detail__cover picture,
+.projekt-detail__cover img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Titel-Bereich: Abstand zum Cover auf Mobil */
+.projekt-detail__headline h1 {
+  /* Keine extra margin — align-items: end im Grid erledigt die Ausrichtung */
+}
+
+.projekt-detail__tags {
+  margin-top: var(--space-3);
+  color: var(--color-fg-muted);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* Lead-Text und Meta unterhalb des Heros */
+.projekt-detail__lead {
+  max-width: var(--container-text);
+}
+
 .projekt-detail__meta {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
-  margin-bottom: var(--space-4);
+  margin-top: var(--space-4);
   color: var(--color-fg-muted);
 }
 
-/* Punkte zwischen den Meta-Infos */
 .projekt-detail__meta span + span::before {
   content: "·";
   margin-right: var(--space-4);
 }
 
-.projekt-detail__lead {
-  margin-top: var(--space-4);
-  max-width: var(--container-text);
-}
-
-.projekt-detail__cover {
-  margin-bottom: var(--space-12);
-}
-
-/* Bild: volle Breite, keine Beschneidung */
-.projekt-detail__cover img {
-  width: 100%;
-  height: auto;
-}
-
-/* Typografischer Rhythmus im Content-Bereich */
+/* Body: Markdown-Content */
 .projekt-detail__body {
   max-width: var(--container-text);
 }
@@ -108,4 +132,11 @@
 .projekt-detail__body h2 {
   margin-top: var(--space-12);
   margin-bottom: var(--space-4);
+}
+
+/* Bilder im Body-Content: volle Textbreite */
+.projekt-detail__body img {
+  width: 100%;
+  height: auto;
+  margin-block: var(--space-8);
 }
