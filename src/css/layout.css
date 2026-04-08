@@ -1,0 +1,152 @@
+/* ============================================
+   LAYOUT
+   Container, Header, Nav, Footer.
+   Kein JS. Mobile-First.
+   ============================================ */
+
+
+/* --- Container ---
+   Zentriert Inhalt mit seitlichem Padding.
+   padding-inline funktioniert auf allen Breiten
+   ohne einen einzigen Breakpoint.
+*/
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+
+/* --- Basis-Seitenlayout ---
+   Alle Seiten: Header oben, Footer unten,
+   Main füllt den Rest. Grid macht das ohne JS.
+*/
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh; /* dvh = dynamic viewport height, korrekt auf iOS */
+}
+
+
+/* --- Site Header ---
+   Zentrierte Navigation, kein Logo im Header.
+*/
+.site-header {
+  padding-block: var(--space-6);
+  /* Sticky + Blur: Header bleibt sichtbar beim Scrollen */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+
+/* --- Hauptnavigation ---
+   Zentriert, p-m-bold, kein Unterstrich.
+*/
+.site-nav {
+  display: flex;
+  justify-content: center;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline; /* alle Items auf gleicher Textlinie */
+  gap: var(--space-8);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* base.css setzt li + li { margin-top } — in Flex-Nav nicht erwünscht */
+.site-nav li {
+  margin: 0;
+}
+
+.site-nav a {
+  font-size: var(--type-p-m-bold);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  text-decoration: none;
+  color: var(--color-fg-muted);
+  transition: color var(--transition-fast);
+}
+
+.site-nav a:hover {
+  color: var(--color-fg);
+}
+
+/* Aktive Seite — via aria-current="page" im Template */
+.site-nav a[aria-current="page"] {
+  color: var(--color-fg);
+}
+
+
+/* --- Home-Seite: Logo zentriert im verbleibenden Viewport ---
+   body.home → main zentriert das Logo vertikal + horizontal.
+   Das Grid oben (auto 1fr auto) gibt main den gesamten freien Raum.
+*/
+body.home main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-logo {
+  width: min(480px, 80vw); /* passt sich dem Viewport an, nie zu groß */
+}
+
+
+/* --- Inner Pages: Content-Bereich ---
+   Etwas Luft oben, Container zentriert.
+*/
+body.page main {
+  padding-block: var(--space-16);
+}
+
+
+/* --- Site Footer ---
+   Legal-Links zentriert, p-xs.
+*/
+.site-footer {
+  padding-block: var(--space-8);
+  border-top: 1px solid var(--color-border);
+}
+
+.site-footer nav {
+  display: flex;
+  justify-content: center;
+}
+
+.site-footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: var(--space-6);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer li {
+  margin: 0;
+}
+
+.site-footer a {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.site-footer a:hover {
+  color: var(--color-fg);
+}
