@@ -1,0 +1,31 @@
+media:
+  input: src/assets/images
+  output: /assets/images
+
+content:
+
+  - name: projekte
+    label: Projekte
+    type: collection
+    path: src/projekte
+    view:
+      fields: [title, year, client]
+    fields:
+      - { name: title,       label: Titel,         type: string }
+      - { name: description, label: Beschreibung,  type: string }
+      - { name: year,        label: Jahr,          type: number }
+      - { name: client,      label: Kunde,         type: string,  required: false }
+      - { name: role,        label: Rolle,         type: string,  required: false }
+      - name: tags
+        label: Tags
+        type: multiselect
+        required: false
+        options:
+          - UX
+          - UI
+          - Research
+          - Branding
+          - Web
+          - Mobile
+      - { name: cover,  label: Cover-Bild,  type: image,      required: false }
+      - { name: body,   label: Inhalt,      type: rich-text }
