@@ -3,17 +3,49 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="{{ description or 'Xaver Friedrich — UX/UI Designer' }}" />
-    <title>{% if title %}{{ title }} — {% endif %}Xaver Friedrich</title>
-    <link rel="stylesheet" href="/css/style.css" />
+
+    {# --- Titel & Description --- #}
+    <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+    <meta name="description" content="{{ description or site.description }}" />
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+
+    {# --- Open Graph --- #}
+    <meta property="og:type"        content="{% if layout == 'post.njk' %}article{% else %}website{% endif %}" />
+    <meta property="og:title"       content="{% if title %}{{ title }} — {% endif %}{{ site.title }}" />
+    <meta property="og:description" content="{{ description or site.description }}" />
+    <meta property="og:url"         content="{{ site.url }}{{ page.url }}" />
+
+    {# --- Twitter / X Card --- #}
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content="{% if title %}{{ title }} — {% endif %}{{ site.title }}" />
+    <meta name="twitter:description" content="{{ description or site.description }}" />
+
+    {# --- Theme Color (Browser-Chrome auf Mobil) --- #}
+    <meta name="theme-color" content="#ffffff" />
+
+    {# --- Font Preload: Schriften sofort laden, kein FOUT --- #}
+    <link rel="preload" href="/fonts/Tabular-Variable.woff2"
+          as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Tabular-VariableItalic.woff2"
+          as="font" type="font/woff2" crossorigin />
+
+    {# --- RSS Feed Discovery --- #}
+    <link rel="alternate" type="application/rss+xml"
+          title="{{ site.title }} — Blog" href="{{ site.url }}/feed.xml" />
+
+    {# --- CSS inline: kein render-blocking, kein extra Request --- #}
+    <style>{% inlineCSS %}</style>
   </head>
+
   <body class="{{ bodyClass or 'page' }}">
+
+    {# Skip-Link: für Tastatur- und Screenreader-Navigation --- #}
+    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
 
     <header class="site-header">
       <nav class="site-nav" aria-label="Hauptnavigation">
         <ul role="list">
 
-          {# Zurück-Pfeil: nur sichtbar wenn es eine übergeordnete Seite gibt #}
           {% set parent = page.url | parentUrl %}
           {% if parent %}
             <li class="nav-back">

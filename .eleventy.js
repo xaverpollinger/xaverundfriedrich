@@ -1,4 +1,5 @@
 const Image = require("@11ty/eleventy-img");
+const fs    = require("fs");
 
 // Bild-Shortcode: wandelt jedes Bild beim Build in AVIF + WebP + JPEG um
 // und erzeugt automatisch ein responsives <picture>-Tag.
@@ -25,6 +26,24 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("public");
+
+  // CSS beim Build inline einbetten — eliminiert render-blocking stylesheet.
+  // Reihenfolge ist wichtig: Tokens müssen vor Base stehen, etc.
+  eleventyConfig.addShortcode("inlineCSS", () => {
+    const files = [
+      "src/css/tokens.css",
+      "src/css/base.css",
+      "src/css/layout.css",
+      "src/css/projekte.css",
+      "src/css/blog.css",
+    ];
+    const css = files.map((f) => fs.readFileSync(f, "utf-8")).join("\n");
+    // Minifizierung: Kommentare entfernen, Whitespace zusammenfassen
+    return css
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  });
 
   // Bild-Shortcode registrieren (async!)
   eleventyConfig.addAsyncShortcode("image", imageShortcode);
