@@ -4,6 +4,28 @@ media:
 
 content:
 
+  - name: blog
+    label: Blog
+    type: collection
+    path: src/blog
+    view:
+      fields: [title, date]
+    fields:
+      - { name: title,       label: Titel,         type: string }
+      - { name: description, label: Beschreibung,  type: string }
+      - { name: date,        label: Datum,         type: date }
+      - name: tags
+        label: Tags
+        type: multiselect
+        required: false
+        options:
+          - Design
+          - UX
+          - Code
+          - Meta
+          - Typografie
+      - { name: body, label: Inhalt, type: rich-text }
+
   - name: projekte
     label: Projekte
     type: collection

@@ -1,7 +1,31 @@
 ---
 layout: page.njk
 title: Blog
-description: "Gedanken zu Design, Code und dem Dazwischen — von Xaver Friedrich."
+description: "Gedanken zu Design, Code und dem Dazwischen."
 ---
+
 <h1>Blog</h1>
-<p class="p-m-bold">Gedanken zu Design, Code und dem Dazwischen — kommt bald.</p>
+
+{% set posts = collections.blog %}
+
+{% if posts.length %}
+  <ul class="post-liste" role="list">
+    {% for post in posts %}
+      <li class="post-item">
+        <a href="{{ post.url }}" class="post-item__link">
+          <div class="post-item__main">
+            <span class="post-item__title">{{ post.data.title }}</span>
+            <time class="post-item__date p-xs" datetime="{{ post.date | dateISO }}">
+              {{ post.date | dateReadable }}
+            </time>
+          </div>
+          {% if post.data.description %}
+            <p class="post-item__desc p-s">{{ post.data.description }}</p>
+          {% endif %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="p-m-bold">Kommt bald.</p>
+{% endif %}

@@ -1,0 +1,23 @@
+---
+layout: base.njk
+bodyClass: page
+---
+<div class="container">
+  <article class="post">
+
+    <header class="post__header">
+      <time class="p-xs post__date" datetime="{{ date | dateISO }}">
+        {{ date | dateReadable }}
+      </time>
+      <h1>{{ title }}</h1>
+      {% if description %}
+        <p class="p-m-bold post__lead">{{ description }}</p>
+      {% endif %}
+    </header>
+
+    <div class="post__body">
+      {{ content | safe }}
+    </div>
+
+  </article>
+</div>

@@ -1,0 +1,100 @@
+/* ============================================
+   BLOG — Liste & Post
+   Spiegelt bewusst die Projekt-CSS-Struktur,
+   damit beide Collections konsistent wirken.
+   ============================================ */
+
+
+/* --- Blog-Liste --- */
+.post-liste {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-10);
+}
+
+.post-item {
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+}
+
+.post-item:last-child {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.post-item__link {
+  display: block;
+  padding-block: var(--space-6);
+  text-decoration: none;
+  transition: padding-left var(--transition-base);
+}
+
+.post-item__link:hover {
+  padding-left: var(--space-3);
+}
+
+.post-item__main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.post-item__title {
+  font-size: var(--type-h3);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-tight);
+  color: var(--color-fg);
+}
+
+.post-item__date {
+  color: var(--color-fg-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.post-item__desc {
+  margin-top: var(--space-2);
+  max-width: var(--container-text);
+}
+
+
+/* --- Blog-Post --- */
+.post {
+  max-width: var(--container-max);
+}
+
+.post__header {
+  min-height: 384px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  /* Volle Container-Breite — spiegelt den zweispaltigen Hero der Projektseite */
+  margin-bottom: var(--space-12);
+}
+
+.post__date {
+  color: var(--color-fg-muted);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.post__lead {
+  max-width: var(--container-text);
+}
+
+.post__body {
+  max-width: var(--container-text);
+  margin-inline: auto;
+  margin-top: var(--space-32);
+}
+
+.post__body > * + * {
+  margin-top: var(--space-6);
+}
+
+.post__body h2 {
+  margin-top: var(--space-12);
+  margin-bottom: var(--space-4);
+}

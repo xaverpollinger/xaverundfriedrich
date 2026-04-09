@@ -1,0 +1,25 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Xaver Friedrich — Blog</title>
+    <link>https://xaverfriedrich.de</link>
+    <description>Gedanken zu Design, Code und dem Dazwischen.</description>
+    <language>de</language>
+    <atom:link href="https://xaverfriedrich.de/feed.xml" rel="self" type="application/rss+xml" />
+    {% for post in collections.blog %}
+    <item>
+      <title>{{ post.data.title | escape }}</title>
+      <link>https://xaverfriedrich.de{{ post.url }}</link>
+      <guid>https://xaverfriedrich.de{{ post.url }}</guid>
+      <pubDate>{{ post.date | dateRFC822 }}</pubDate>
+      {% if post.data.description %}
+      <description>{{ post.data.description | escape }}</description>
+      {% endif %}
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

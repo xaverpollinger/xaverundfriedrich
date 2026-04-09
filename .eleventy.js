@@ -58,6 +58,31 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0))
   );
 
+  // Blog-Collection: alle Markdown-Dateien in src/blog/,
+  // nach Datum absteigend sortiert (neueste zuerst).
+  eleventyConfig.addCollection("blog", (api) =>
+    api
+      .getFilteredByGlob("src/blog/*.md")
+      .sort((a, b) => b.date - a.date)
+  );
+
+  // Datum lesbar: 8. April 2026
+  eleventyConfig.addFilter("dateReadable", (date) =>
+    new Date(date).toLocaleDateString("de-DE", {
+      year: "numeric", month: "long", day: "numeric",
+    })
+  );
+
+  // Datum ISO 8601 für RSS und <time datetime="">
+  eleventyConfig.addFilter("dateISO", (date) =>
+    new Date(date).toISOString()
+  );
+
+  // Datum RFC 822 für RSS <pubDate>
+  eleventyConfig.addFilter("dateRFC822", (date) =>
+    new Date(date).toUTCString()
+  );
+
   // Datumsfilter für Footer-Copyright: {{ '' | date('yyyy') }} → "2026"
   eleventyConfig.addFilter("date", (value, format) => {
     const d = value ? new Date(value) : new Date();
