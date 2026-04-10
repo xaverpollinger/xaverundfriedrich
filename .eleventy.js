@@ -23,6 +23,7 @@ async function imageShortcode(src, alt, sizes = "100vw") {
 module.exports = function (eleventyConfig) {
   // Static assets werden 1:1 in _site/ kopiert
   eleventyConfig.addPassthroughCopy("src/css");
+  eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("public");
@@ -36,6 +37,7 @@ module.exports = function (eleventyConfig) {
       "src/css/layout.css",
       "src/css/projekte.css",
       "src/css/blog.css",
+      "src/css/cursor.css",
     ];
     const css = files.map((f) => fs.readFileSync(f, "utf-8")).join("\n");
     // Minifizierung: Kommentare entfernen, Whitespace zusammenfassen

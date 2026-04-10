@@ -84,5 +84,16 @@
       </nav>
     </footer>
 
+    {# Custom Cursor — auf allen Seiten aktiv #}
+    <div id="cursorDot" aria-hidden="true"></div>
+    <script src="/js/cursor.js" defer></script>
+
+    {# Seitenspezifische Scripts — nur laden wenn im Frontmatter definiert #}
+    {% if scripts %}
+      {% for src in scripts %}
+        <script src="{{ src }}" defer></script>
+      {% endfor %}
+    {% endif %}
+
   </body>
 </html>
