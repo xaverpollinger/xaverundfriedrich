@@ -69,6 +69,9 @@
 
         {# Rechte Seite: Social Icons (Desktop) + Burger (Mobile) #}
         <div class="nav-right">
+          <a href="https://dribbble.com/xaverpollinger" class="nav-icon-link nav-desktop-only" aria-label="Dribbble" target="_blank" rel="noopener">
+            {% include "icons/dribbble.svg" %}
+          </a>
           <a href="https://www.linkedin.com/in/xaver-pollinger-24a02425b" class="nav-icon-link nav-desktop-only" aria-label="LinkedIn" target="_blank" rel="noopener">
             {% include "icons/social-linkedin.svg" %}
           </a>
@@ -99,6 +102,9 @@
           {% endfor %}
         </ul>
         <div class="nav-mobile-menu__social">
+          <a href="https://dribbble.com/xaverpollinger" class="nav-icon-link" aria-label="Dribbble" target="_blank" rel="noopener">
+            {% include "icons/dribbble.svg" %}
+          </a>
           <a href="https://www.linkedin.com/in/xaver-pollinger-24a02425b" class="nav-icon-link" aria-label="LinkedIn" target="_blank" rel="noopener">
             {% include "icons/social-linkedin.svg" %}
           </a>
@@ -141,8 +147,8 @@
       (function () {
         var btn = document.querySelector(".back-to-top");
         if (!btn) return;
-        var PAGE_MIN  = 1200; // px — erst ab dieser Seitenhöhe aktiv
-        var SCROLL_MIN = 400; // px — erst ab hier einblenden
+        var PAGE_MIN  = 1500; // px — erst ab dieser Seitenhöhe aktiv
+        var SCROLL_MIN = 750; // px — erst ab hier einblenden
         if (document.body.scrollHeight < PAGE_MIN) return;
         btn.removeAttribute("hidden");
         window.addEventListener("scroll", function () {

@@ -127,6 +127,7 @@
   justify-content: center;
   flex-shrink: 0;
   overflow: hidden;
+  padding: 6px;
 }
 
 .cv-item__logo img {

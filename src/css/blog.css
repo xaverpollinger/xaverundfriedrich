@@ -5,6 +5,63 @@
    ============================================ */
 
 
+/* --- Blog-Header: Headline links, Info-Button rechts --- */
+.blog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.blog-info-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-fg-muted);
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.blog-info-btn svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+}
+
+.blog-info-btn:hover {
+  color: var(--color-fg);
+}
+
+/* Icon-Zustand: open sichtbar, close versteckt — bei aria-expanded umgekehrt */
+.blog-info-btn__icon--close { display: none; }
+
+.blog-info-btn[aria-expanded="true"] .blog-info-btn__icon--open  { display: none; }
+.blog-info-btn[aria-expanded="true"] .blog-info-btn__icon--close { display: flex; }
+.blog-info-btn[aria-expanded="true"] { color: var(--color-fg); }
+
+/* Info-Box: standardmäßig versteckt, erscheint via .is-open */
+.blog-info {
+  display: none;
+  max-width: var(--container-text);
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-10);
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.blog-info.is-open {
+  display: flex;
+}
+
+.blog-info p {
+  max-width: 100%;
+}
+
+
 /* --- Blog-Liste --- */
 .post-liste {
   list-style: none;
