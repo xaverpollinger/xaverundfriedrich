@@ -1,5 +1,5 @@
 [
   { "label": "Projekte", "url": "/projekte/" },
   { "label": "Blog",     "url": "/blog/" },
-  { "label": "Kontakt",  "url": "/kontakt/" }
+  { "label": "About",    "url": "/about/" }
 ]

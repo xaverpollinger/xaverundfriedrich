@@ -9,6 +9,9 @@
     <meta name="description" content="{{ description or site.description }}" />
     <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
 
+    {# --- Favicon --- #}
+    <link rel="icon" type="image/png" href="/assets/xundf_favicon.png" />
+
     {# --- Open Graph --- #}
     <meta property="og:type"        content="{% if layout == 'post.njk' %}article{% else %}website{% endif %}" />
     <meta property="og:title"       content="{% if title %}{{ title }} — {% endif %}{{ site.title }}" />
@@ -44,17 +47,16 @@
 
     <header class="site-header">
       <nav class="site-nav" aria-label="Hauptnavigation">
+
+        {# Linke Seite: Logo #}
+        <div class="nav-left">
+          <a href="/" class="nav-logo" aria-label="Startseite">
+            {% include "icons/xundf.svg" %}
+          </a>
+        </div>
+
+        {# Mitte: Hauptnavigation — zentriert via Grid (Desktop) #}
         <ul role="list">
-
-          {% set parent = page.url | parentUrl %}
-          {% if parent %}
-            <li class="nav-back">
-              <a href="{{ parent }}" aria-label="Zurück">
-                {% include "icons/arrow-big-left.svg" %}
-              </a>
-            </li>
-          {% endif %}
-
           {% for item in nav %}
             <li>
               <a href="{{ item.url }}"
@@ -63,9 +65,49 @@
               </a>
             </li>
           {% endfor %}
-
         </ul>
+
+        {# Rechte Seite: Social Icons (Desktop) + Burger (Mobile) #}
+        <div class="nav-right">
+          <a href="https://www.linkedin.com/in/xaver-pollinger-24a02425b" class="nav-icon-link nav-desktop-only" aria-label="LinkedIn" target="_blank" rel="noopener">
+            {% include "icons/social-linkedin.svg" %}
+          </a>
+          <a href="mailto:info@xaverfriedrich.de" class="nav-icon-link nav-desktop-only" aria-label="E-Mail senden">
+            {% include "icons/mail.svg" %}
+          </a>
+
+          {# Burger-Button — nur auf Mobile sichtbar #}
+          <button class="nav-burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-mobile-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+              <path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path>
+            </svg>
+          </button>
+        </div>
+
       </nav>
+
+      {# Mobile Menü — klappt von oben über den Content #}
+      <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <ul role="list">
+          {% for item in nav %}
+            <li>
+              <a href="{{ item.url }}"
+                 {% if page.url == item.url %}aria-current="page"{% endif %}>
+                {{ item.label }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="nav-mobile-menu__social">
+          <a href="https://www.linkedin.com/in/xaver-pollinger-24a02425b" class="nav-icon-link" aria-label="LinkedIn" target="_blank" rel="noopener">
+            {% include "icons/social-linkedin.svg" %}
+          </a>
+          <a href="mailto:info@xaverfriedrich.de" class="nav-icon-link" aria-label="E-Mail senden">
+            {% include "icons/mail.svg" %}
+          </a>
+        </div>
+      </div>
+
     </header>
 
     <main id="main-content">
@@ -73,20 +115,19 @@
     </main>
 
     <footer class="site-footer">
-      <nav aria-label="Rechtliche Links">
-        <ul role="list">
-          {% for item in legal %}
-            <li>
-              <a href="{{ item.url }}">{{ item.label }}</a>
-            </li>
-          {% endfor %}
-        </ul>
+      <nav class="legal-nav" aria-label="Rechtliche Links">
+        {% for item in legal %}
+          <a href="{{ item.url }}">{{ item.label }}</a>
+        {% endfor %}
       </nav>
     </footer>
 
     {# Custom Cursor — auf allen Seiten aktiv #}
     <div id="cursorDot" aria-hidden="true"></div>
     <script src="/js/cursor.js" defer></script>
+
+    {# Mobile Nav — auf allen Seiten aktiv #}
+    <script src="/js/nav.js" defer></script>
 
     {# Seitenspezifische Scripts — nur laden wenn im Frontmatter definiert #}
     {% if scripts %}

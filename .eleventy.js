@@ -38,6 +38,8 @@ module.exports = function (eleventyConfig) {
       "src/css/projekte.css",
       "src/css/blog.css",
       "src/css/cursor.css",
+      "src/css/about.css",
+      "src/css/home.css",
     ];
     const css = files.map((f) => fs.readFileSync(f, "utf-8")).join("\n");
     // Minifizierung: Kommentare entfernen, Whitespace zusammenfassen

@@ -3,58 +3,26 @@
    ============================================ */
 
 
-/* --- Projekte-Layout: Feste Headline links, rechte Spalte scrollt --- */
+/* --- Projekte-Layout: Sticky Headline links, Seite scrollt normal --- */
 
-/* Mobile: einspaltig, normaler Seitenscroll */
 .projekte-layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-10);
 }
 
-/* Desktop: Seiten-Scroll sperren, nur rechte Spalte scrollt intern */
 @media (min-width: 720px) {
-
-  body.projekte-index {
-    height: 100dvh;
-    overflow: hidden;
-  }
-
-  body.projekte-index main {
-    padding-block: 0;
-    overflow: hidden;
-    height: 100%;
-  }
-
-  /* Footer bei diesem Layout ausblenden */
-  body.projekte-index .site-footer {
-    display: none;
-  }
-
   .projekte-layout {
     grid-template-columns: 2fr 4fr;
     gap: var(--space-8);
-    height: 100%;
-    overflow: hidden;
+    align-items: start; /* Zellen nur so hoch wie ihr Inhalt → sticky funktioniert */
   }
 
-  /* Linke Spalte: scrollt nie — kein position sticky nötig */
+  /* Linke Spalte: sticky dank overflow-x: clip auf html.
+     top = nav-height + main padding-top → Element klebt sofort ab Scroll-Beginn */
   .projekte-layout__left {
-    padding-top: var(--space-16);
-    overflow: hidden;
-  }
-
-  /* Rechte Spalte: scrollt intern, Scrollbar ausgeblendet */
-  .projekte-layout__right {
-    overflow-y: auto;
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .projekte-layout__right::-webkit-scrollbar {
-    display: none;
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-16));
   }
 }
 

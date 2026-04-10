@@ -1,0 +1,129 @@
+---
+layout: base.njk
+bodyClass: page about-page
+title: About
+description: "Xaver Friedrich — UX/UI Designer. Hier erfährst du mehr über mich und wie wir zusammenarbeiten können."
+permalink: /about/
+---
+
+<div class="container">
+
+  <h1>About</h1>
+
+  {# --- Hero: Bio links, Foto rechts --- #}
+  <section class="about-hero">
+
+    <div class="about-hero__content">
+      <p class="about-hero__bio">
+        Minim officia ullamco Lorem magna id ullamco laborum quis qui.
+        Consequat veniam mollit Lorem in commodo deserunt irure do duis
+        exercitation mollit aliquip culpa. Tempor occaecat aute dolor
+        proident do cupidatat. Sunt cupidatat nisi non esse incididunt.
+        Tempor minim mollit incididunt sunt id ut. In proident fugiat
+        veniam est esse sunt tempor reprehenderit nisi tempor. Commodo
+        consectetur reprehenderit pariatur anim. Do eu irure mollit
+        laboris enim ullamco duis aliqua nulla non veniam aliquip.
+      </p>
+
+      <div class="about-hero__links">
+        <a href="mailto:info@xaverfriedrich.de" class="about-link">
+          {% include "icons/mail.svg" %}
+          <span>Mail</span>
+        </a>
+        <a href="https://www.instagram.com" class="about-link" target="_blank" rel="noopener">
+          {% include "icons/instagram.svg" %}
+          <span>Instagram</span>
+        </a>
+        <a href="https://www.linkedin.com/in/xaver-pollinger-24a02425b" class="about-link" target="_blank" rel="noopener">
+          {% include "icons/social-linkedin.svg" %}
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="about-hero__photo">
+      <img
+        src="/assets/xaverfriedrich_profil.png"
+        alt="Xaver Friedrich"
+        width="400"
+        height="533"
+      />
+    </div>
+
+  </section>
+
+  {# --- CV: Erfahrung links, Ausbildung rechts --- #}
+  <section class="about-cv">
+
+    <div class="about-cv__col">
+      <h2 class="about-cv__heading">Erfahrung</h2>
+
+      <ul class="cv-liste" role="list">
+
+        <li class="cv-item">
+          <div class="cv-item__logo" aria-hidden="true">
+            <img src="/assets/logos/design-buero-bauer.png" alt="" width="48" height="48" />
+          </div>
+          <div class="cv-item__info">
+            <strong class="cv-item__title">Design Büro Bauer</strong>
+            <span class="cv-item__role">Werksstudent</span>
+            <span class="cv-item__period">2025–26</span>
+          </div>
+        </li>
+
+        <li class="cv-item">
+          <div class="cv-item__logo" aria-hidden="true">
+            <img src="/assets/logos/von-helden-und-gestalten.png" alt="" width="48" height="48" />
+          </div>
+          <div class="cv-item__info">
+            <strong class="cv-item__title">Von Helden und Gestalten</strong>
+            <span class="cv-item__role">Praktikant</span>
+            <span class="cv-item__period">2024–25</span>
+          </div>
+        </li>
+
+        <li class="cv-item">
+          <div class="cv-item__logo" aria-hidden="true">
+            <img src="/assets/logos/adverma.png" alt="" width="48" height="48" />
+          </div>
+          <div class="cv-item__info">
+            <strong class="cv-item__title">ADVERMA Advertising &amp; Marketing GmbH</strong>
+            <span class="cv-item__role">Ausbildung und Werksstudent</span>
+            <span class="cv-item__period">2019–2023</span>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="about-cv__col">
+      <h2 class="about-cv__heading">Ausbildung</h2>
+
+      <ul class="cv-liste" role="list">
+
+        <li class="cv-item">
+          <div class="cv-item__logo" aria-hidden="true">
+            <img src="/assets/logos/th-ulm.png" alt="" width="48" height="48" />
+          </div>
+          <div class="cv-item__info">
+            <strong class="cv-item__title">Bachelor of Arts Digital Media</strong>
+            <span class="cv-item__role">Technische Hochschule Ulm</span>
+          </div>
+        </li>
+
+        <li class="cv-item">
+          <div class="cv-item__logo" aria-hidden="true">
+            <img src="/assets/logos/bsz-senefelder.png" alt="" width="48" height="48" />
+          </div>
+          <div class="cv-item__info">
+            <strong class="cv-item__title">Ausbildung Mediengestalter Digital u. Print</strong>
+            <span class="cv-item__role">BSZ Alois Senefelder Berufsschule und Fachschule</span>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+  </section>
+
+</div>

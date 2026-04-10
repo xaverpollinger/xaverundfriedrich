@@ -3,13 +3,46 @@ layout: base.njk
 title: ""
 description: "Xaver Friedrich — UX/UI Designer"
 bodyClass: home
+scripts:
+  - /js/home.js
 ---
 
-<img
-  src="/assets/logo-claim.svg"
-  alt="Xaver Friedrich — Design &amp; Code"
-  class="home-logo"
-  width="472"
-  height="148"
-  fetchpriority="high"
-/>
+<div class="home-stage">
+  <img
+    src="/assets/logo-claim.svg"
+    alt="Xaver Friedrich — Design &amp; Code"
+    class="home-logo"
+    width="472"
+    height="148"
+    fetchpriority="high"
+  />
+</div>
+
+<div class="home-card" role="complementary" aria-label="Einleitung">
+
+  <div class="home-card__inner container">
+    <p class="home-card__text">
+      Ich bin Xaver — UX/UI Designer mit Affinität für sauberen Code.
+      Ich entwerfe digitale Produkte, die sich durchdacht anfühlen,
+      und bringe sie selbst zum Laufen.
+    </p>
+    <div class="home-card__actions">
+      <a href="/projekte/" class="about-link">Projekte</a>
+      <a href="/about/"    class="about-link">About</a>
+      <a href="mailto:info@xaverfriedrich.de" class="about-link">
+        {% include "icons/mail.svg" %}
+        <span>Schreib mir</span>
+      </a>
+    </div>
+  </div>
+
+  {# Footer ausserhalb des Containers — volle Kartenbreite #}
+  <div class="home-card__footer">
+    <nav class="legal-nav" aria-label="Rechtliche Links">
+      {% for item in legal %}
+        <a href="{{ item.url }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+
+</div>

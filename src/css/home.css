@@ -1,0 +1,93 @@
+/* ============================================
+   HOME — Stage + Scroll-Karte
+   ============================================ */
+
+body.home main {
+  display: block;
+  min-height: 200vh;
+  position: relative;
+}
+
+/* Footer auf Home ausblenden — Legal ist in der Karte */
+body.home .site-footer {
+  display: none;
+}
+
+/* Stage: Logo absolut fix */
+.home-stage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.home-logo {
+  width: min(480px, 80vw);
+  pointer-events: auto;
+}
+
+
+/* Karte: full-width, flex-column damit Footer ganz unten */
+.home-card {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75vh;
+  transform: translateY(100%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background-color: var(--color-bg);
+
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+
+  z-index: 5;
+  overflow: hidden;
+}
+
+/* Inner: Container-Breite, Text + Buttons */
+.home-card__inner {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.home-card__text {
+  font-size: var(--type-h2);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-snug);
+  max-width: 100%;
+}
+
+.home-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.home-card__actions .about-link svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Footer: volle Kartenbreite, border-top wie site-footer */
+.home-card__footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-8);
+  display: flex;
+  justify-content: center;
+}

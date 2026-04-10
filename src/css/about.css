@@ -1,0 +1,161 @@
+/* ============================================
+   ABOUT — Hero, Links, CV
+   ============================================ */
+
+
+/* H1: gleicher Abstand wie auf Blog/Projekte */
+.about-page h1 {
+  margin-bottom: var(--space-8);
+}
+
+
+/* --- Hero: Bio links (4/6), Foto rechts (2/6) --- */
+
+.about-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  margin-bottom: var(--space-24);
+}
+
+@media (min-width: 640px) {
+  .about-hero {
+    grid-template-columns: 4fr 2fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+}
+
+.about-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Kontakt-Buttons */
+.about-hero__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  color: var(--color-fg);
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.about-link:hover {
+  border-color: var(--color-fg);
+}
+
+.about-link svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Foto: füllt die Höhe der linken Spalte — nie höher als der Text */
+.about-hero__photo {
+  overflow: hidden;
+  align-self: stretch;  /* Grid-Zelle streckt sich auf Höhe der linken Spalte */
+}
+
+.about-hero__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+
+/* --- CV: Erfahrung links, Ausbildung rechts --- */
+
+.about-cv {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+@media (min-width: 640px) {
+  .about-cv {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
+.about-cv__heading {
+  margin-bottom: var(--space-10);
+}
+
+/* CV-Liste */
+.cv-liste {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.cv-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  margin: 0;
+}
+
+/* Logo-Box */
+.cv-item__logo {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.cv-item__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Info-Block */
+.cv-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-1);
+}
+
+.cv-item__title {
+  font-size: var(--type-p-m);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-snug);
+}
+
+.cv-item__role,
+.cv-item__period {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg-muted);
+  line-height: var(--line-height-base);
+}
