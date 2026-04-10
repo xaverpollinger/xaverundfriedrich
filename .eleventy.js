@@ -40,6 +40,7 @@ module.exports = function (eleventyConfig) {
       "src/css/cursor.css",
       "src/css/about.css",
       "src/css/home.css",
+      "src/css/animations.css",
     ];
     const css = files.map((f) => fs.readFileSync(f, "utf-8")).join("\n");
     // Minifizierung: Kommentare entfernen, Whitespace zusammenfassen

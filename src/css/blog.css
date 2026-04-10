@@ -60,17 +60,20 @@
 
 
 /* --- Blog-Post --- */
+
+/* Gleiches padding-top wie projekt-page */
+body.post-page main {
+  padding-top: var(--space-16);
+}
+
 .post {
   max-width: var(--container-max);
 }
 
 .post__header {
-  min-height: 384px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   gap: var(--space-3);
-  /* Volle Container-Breite — spiegelt den zweispaltigen Hero der Projektseite */
   margin-bottom: var(--space-12);
 }
 
@@ -86,8 +89,9 @@
 
 .post__body {
   max-width: var(--container-text);
-  margin-inline: auto;
-  margin-top: var(--space-32);
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+  margin-top: var(--space-12);
 }
 
 .post__body > * + * {

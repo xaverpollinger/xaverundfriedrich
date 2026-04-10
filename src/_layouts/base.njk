@@ -122,12 +122,56 @@
       </nav>
     </footer>
 
+    {# Back-to-top Button — erscheint automatisch auf langen Seiten #}
+    <button class="back-to-top" aria-label="Zurück nach oben" hidden>
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+        <path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"></path>
+      </svg>
+    </button>
+
     {# Custom Cursor — auf allen Seiten aktiv #}
     <div id="cursorDot" aria-hidden="true"></div>
     <script src="/js/cursor.js" defer></script>
 
     {# Mobile Nav — auf allen Seiten aktiv #}
     <script src="/js/nav.js" defer></script>
+
+    {# Back-to-top Logik #}
+    <script>
+      (function () {
+        var btn = document.querySelector(".back-to-top");
+        if (!btn) return;
+        var PAGE_MIN  = 1200; // px — erst ab dieser Seitenhöhe aktiv
+        var SCROLL_MIN = 400; // px — erst ab hier einblenden
+        if (document.body.scrollHeight < PAGE_MIN) return;
+        btn.removeAttribute("hidden");
+        window.addEventListener("scroll", function () {
+          if (window.scrollY > SCROLL_MIN) {
+            btn.classList.add("is-visible");
+          } else {
+            btn.classList.remove("is-visible");
+          }
+        }, { passive: true });
+        btn.addEventListener("click", function () {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      })();
+    </script>
+
+    {# Lazy-Image Fade: is-loaded Klasse sobald Bild geladen #}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("img[loading='lazy']").forEach(function (img) {
+          if (img.complete) {
+            img.classList.add("is-loaded");
+          } else {
+            img.addEventListener("load", function () {
+              img.classList.add("is-loaded");
+            });
+          }
+        });
+      });
+    </script>
 
     {# Seitenspezifische Scripts — nur laden wenn im Frontmatter definiert #}
     {% if scripts %}

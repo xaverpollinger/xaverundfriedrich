@@ -8,6 +8,46 @@ body.home main {
   position: relative;
 }
 
+/* Scroll-Hint: grüner Punkt mit Pfeil, unten zentriert im Viewport */
+.home-scroll-hint {
+  position: fixed;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #73E2A7;
+  color: #0d0d0d;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  animation: scroll-hint-pulse 2s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+
+.home-scroll-hint svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.home-scroll-hint.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes scroll-hint-pulse {
+  0%   { transform: translateX(-50%) scale(1);    }
+  50%  { transform: translateX(-50%) scale(1.15); }
+  100% { transform: translateX(-50%) scale(1);    }
+}
+
+
 /* Footer auf Home ausblenden — Legal ist in der Karte */
 body.home .site-footer {
   display: none;
@@ -39,7 +79,6 @@ body.home .site-footer {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 75vh;
   transform: translateY(100%);
 
   display: flex;
@@ -48,8 +87,6 @@ body.home .site-footer {
 
   background-color: var(--color-bg);
 
-  border-top: 1px solid var(--color-border);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
 
   z-index: 5;
   overflow: hidden;

@@ -3,7 +3,7 @@
    ============================================ */
 
 
-/* --- Projekte-Layout: Sticky Headline links, Seite scrollt normal --- */
+/* --- Projekte-Index: Sticky Headline links, Seite scrollt normal --- */
 
 .projekte-layout {
   display: grid;
@@ -64,7 +64,7 @@
   transition: transform var(--transition-base);
 }
 
-/* Hover: Bild zoomt leicht — subtiler Effekt, keine Info versteckt */
+/* Hover: Bild zoomt leicht */
 .projekt-item__link:hover .projekt-item__media img {
   transform: scale(1.03);
 }
@@ -72,6 +72,12 @@
 /* Info-Block unter dem Bild — immer sichtbar */
 .projekt-item__info {
   padding-top: var(--space-4);
+  padding-left: 0;
+  transition: padding-left var(--transition-base);
+}
+
+.projekt-item__link:hover .projekt-item__info {
+  padding-left: var(--space-3);
 }
 
 .projekt-item__title {
@@ -92,43 +98,47 @@
 }
 
 
-/* --- Projektdetail --- */
-.projekt-detail {
+/* ============================================
+   PROJEKTDETAIL — neues Layout
+   ============================================ */
+
+/* main-padding entfernen: hero startet direkt unter der Nav */
+body.projekt-page main {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-20);
+}
+
+/* Hero-Wrap: Container-Breite + seitliches Padding */
+.projekt-hero-wrap {
   max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
 }
 
-.projekt-detail__header {
-  margin-bottom: var(--space-12);
+/* Innerer Block: Bild + Overlay, kein Padding */
+.projekt-hero {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 60vh, 640px);
+  /* Mobile: max 1:1 — nie höher als breit */
+  max-height: 100vw;
+  overflow: hidden;
+  background-color: var(--color-fg); /* Fallback / Placeholder wenn kein Cover */
 }
 
-/* Hero: Cover links, Headline-Block rechts */
-.projekt-detail__hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-6);
-  margin-bottom: var(--space-10);
-}
-
-@media (min-width: 520px) {
-  .projekt-detail__hero {
-    grid-template-columns: 1fr 1fr;
-    align-items: end;
+@media (min-width: 640px) {
+  .projekt-hero {
+    max-height: none;
   }
 }
 
-/* Cover: feste Höhe, Bild füllt den Rahmen ohne Verzerrung */
-.projekt-detail__cover {
-  height: 384px;
-  overflow: hidden;
-}
-
-.projekt-detail__cover picture {
+.projekt-hero picture {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.projekt-detail__cover img {
+.projekt-hero img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -136,47 +146,130 @@
   display: block;
 }
 
-/* Headline-Block: alle Infos am unteren Rand gestapelt */
-.projekt-detail__headline {
+/* Verlaufschatten: transparent oben → fast-schwarz unten */
+.projekt-hero__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.30) 35%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+/* Titel-Wrap: positioniert am unteren Rand des Heroes */
+.projekt-hero__title-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 var(--space-6) var(--space-10);
+}
+
+.projekt-hero__title {
+  color: #ffffff;
+  font-size: var(--type-h1);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  max-width: var(--container-text);
+}
+
+
+/* --- Fallback: Titel ohne Cover --- */
+.projekt-detail__title-fallback {
+  padding-top: var(--space-16);
+  margin-bottom: var(--space-12);
+}
+
+
+/* --- Intro: Description links, Meta rechts --- */
+
+.projekt-detail__intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  padding-block: var(--space-12);
+}
+
+@media (min-width: 640px) {
+  .projekt-detail__intro {
+    grid-template-columns: 4fr 2fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+}
+
+/* Linke Spalte: Kurzbeschreibung */
+.projekt-detail__intro-left p {
+  max-width: 100%;
+}
+
+/* Rechte Spalte: Tags + Meta */
+.projekt-detail__intro-right {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* alles nach unten drücken */
-  gap: var(--space-3);
-  min-height: 384px; /* gleiche Höhe wie Cover */
+  gap: var(--space-6);
 }
 
-/* Fallback ohne Cover: volle Breite, gleiche Höhe wie Hero */
-.projekt-detail__headline--no-cover {
-  max-width: var(--container-text);
-}
-
+/* Tags als Pill-Labels */
 .projekt-detail__tags {
-  color: var(--color-fg-muted);
-  letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
-}
-
-.projekt-detail__lead {
-  max-width: var(--container-text);
-}
-
-.projekt-detail__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-2);
+}
+
+.projekt-tag {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
   color: var(--color-fg-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.2em 0.6em;
+  white-space: nowrap;
 }
 
-.projekt-detail__meta span + span::before {
-  content: "·";
-  margin-right: var(--space-4);
+/* Meta: dt/dd-Paare untereinander */
+.projekt-detail__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-/* Body: Markdown-Content — zentriert unter dem Header */
+.projekt-detail__meta > div {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+
+.projekt-detail__meta dt {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg-muted);
+  min-width: 3.5rem;
+  flex-shrink: 0;
+}
+
+.projekt-detail__meta dd {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg);
+}
+
+
+/* --- Body: Markdown-Content — rechtsbündig ausgerichtet --- */
+
 .projekt-detail__body {
   max-width: var(--container-text);
-  margin-inline: auto;
-  margin-top: var(--space-32);
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-20);
 }
 
 .projekt-detail__body > * + * {
@@ -184,13 +277,18 @@
 }
 
 .projekt-detail__body h2 {
-  margin-top: var(--space-12);
+  margin-top: var(--space-16);
   margin-bottom: var(--space-4);
 }
 
-/* Bilder im Body-Content: volle Textbreite */
+.projekt-detail__body h3 {
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-3);
+}
+
+/* Bilder im Body-Content */
 .projekt-detail__body img {
   width: 100%;
   height: auto;
-  margin-block: var(--space-8);
+  margin-block: var(--space-10);
 }

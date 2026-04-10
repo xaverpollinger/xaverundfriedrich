@@ -1,73 +1,61 @@
 ---
 layout: base.njk
-bodyClass: page
+bodyClass: page projekt-page
 ---
+
+{# ── Hero: Cover mit Titel-Overlay ── #}
+<div class="projekt-hero-wrap">
+  <div class="projekt-hero">
+    {% if cover %}
+      {% set coverSrc = cover | toSrcPath %}
+      {% image coverSrc, title, "(min-width: 1152px) 1152px, 100vw" %}
+    {% endif %}
+    <div class="projekt-hero__gradient"></div>
+    <div class="projekt-hero__title-wrap">
+      <h1 class="projekt-hero__title">{{ title }}</h1>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <article class="projekt-detail">
 
-    <header class="projekt-detail__header">
+    {# ── Intro: Description links, Meta rechts ── #}
+    <div class="projekt-detail__intro">
 
-      {% if cover %}
-        {% set coverSrc = cover | toSrcPath %}
-        <div class="projekt-detail__hero">
+      <div class="projekt-detail__intro-left">
+        {% if description %}
+          <p class="p-m-bold">{{ description }}</p>
+        {% endif %}
+      </div>
 
-          <div class="projekt-detail__cover">
-            {% image coverSrc, title, "(min-width: 1152px) 560px, 50vw" %}
+      <div class="projekt-detail__intro-right">
+        {% if tags and tags.length %}
+          <div class="projekt-detail__tags">
+            {% for tag in tags %}
+              <span class="projekt-tag">{{ tag }}</span>
+            {% endfor %}
           </div>
+        {% endif %}
 
-          <div class="projekt-detail__headline">
-            <h1>{{ title }}</h1>
-
-            {% if tags and tags.length %}
-              <p class="p-xs projekt-detail__tags">
-                {% for tag in tags %}{{ tag }}{% if not loop.last %} · {% endif %}{% endfor %}
-              </p>
+        {% if year or client or role %}
+          <dl class="projekt-detail__meta">
+            {% if year %}
+              <div><dt>Jahr</dt><dd>{{ year }}</dd></div>
             {% endif %}
-
-            {% if description %}
-              <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
+            {% if client %}
+              <div><dt>Kunde</dt><dd>{{ client }}</dd></div>
             {% endif %}
-
-            {% if year or client or role %}
-              <p class="p-xs projekt-detail__meta">
-                {% if year %}<span>{{ year }}</span>{% endif %}
-                {% if client %}<span>{{ client }}</span>{% endif %}
-                {% if role %}<span>{{ role }}</span>{% endif %}
-              </p>
+            {% if role %}
+              <div><dt>Rolle</dt><dd>{{ role }}</dd></div>
             {% endif %}
-          </div>
+          </dl>
+        {% endif %}
+      </div>
 
-        </div>
+    </div>
 
-      {% else %}
-
-        {# Fallback ohne Cover: alles untereinander #}
-        <div class="projekt-detail__headline projekt-detail__headline--no-cover">
-          <h1>{{ title }}</h1>
-
-          {% if tags and tags.length %}
-            <p class="p-xs projekt-detail__tags">
-              {% for tag in tags %}{{ tag }}{% if not loop.last %} · {% endif %}{% endfor %}
-            </p>
-          {% endif %}
-
-          {% if description %}
-            <p class="p-m-bold projekt-detail__lead">{{ description }}</p>
-          {% endif %}
-
-          {% if year or client or role %}
-            <p class="p-xs projekt-detail__meta">
-              {% if year %}<span>{{ year }}</span>{% endif %}
-              {% if client %}<span>{{ client }}</span>{% endif %}
-              {% if role %}<span>{{ role }}</span>{% endif %}
-            </p>
-          {% endif %}
-        </div>
-
-      {% endif %}
-
-    </header>
-
+    {# ── Body: Markdown-Content ── #}
     <div class="projekt-detail__body">
       {{ content | safe }}
     </div>

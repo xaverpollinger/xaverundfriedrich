@@ -1,0 +1,152 @@
+/* ============================================
+   MICRO ANIMATIONS
+   Nur transform + opacity — GPU-composited,
+   kein Layout-Thrashing, keine Repaints.
+   Alles wrapped in prefers-reduced-motion.
+   ============================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* --- Smooth Scroll --- */
+  html {
+    scroll-behavior: smooth;
+  }
+
+
+  /* --- Seiten-Einstieg: Main faded sanft ein ---
+     Home ausgenommen: fixed Kinder (Stage, Card, Hint) brechen
+     bei transform auf dem Elternelement aus dem Viewport-Fix heraus. */
+  body:not(.home) main {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  /* --- Nav-Links: Opacity-Fade statt abruptem Farbwechsel --- */
+  .site-nav ul a {
+    transition:
+      color var(--transition-fast),
+      opacity var(--transition-fast);
+  }
+
+  /* Inactive links dimmen wenn eine aktive Seite vorhanden */
+  .site-nav ul:has(a[aria-current="page"]) a:not([aria-current="page"]) {
+    opacity: 0.5;
+  }
+
+  .site-nav ul:has(a[aria-current="page"]) a:not([aria-current="page"]):hover {
+    opacity: 1;
+  }
+
+
+  /* --- About-Link Buttons: leichtes Hochrutschen beim Hover --- */
+  .about-link {
+    transition:
+      border-color var(--transition-fast),
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .about-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .about-link:active {
+    transform: translateY(0);
+  }
+
+
+  /* --- Bilder: Fade-in beim Laden (lazy images) --- */
+  img {
+    transition: opacity 0.4s ease;
+  }
+
+  img[loading="lazy"] {
+    opacity: 0;
+  }
+
+  img[loading="lazy"].is-loaded {
+    opacity: 1;
+  }
+
+
+  /* --- Projekt-Cover: Zoom schon definiert, Transition verfeinern --- */
+  .projekt-item__media img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+  /* --- Home-Card: sanftere Einfahrt via transition statt linear --- */
+  .home-card {
+    will-change: transform;
+  }
+
+
+  /* --- Footer Legal-Links: dezenter Underline-Slide --- */
+  .legal-nav a {
+    position: relative;
+    transition: color var(--transition-fast);
+  }
+
+  .legal-nav a::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width var(--transition-fast);
+  }
+
+  .legal-nav a:hover::after {
+    width: 100%;
+  }
+
+
+  /* --- Nav-Icon Links: leichtes Scale beim Hover --- */
+  .nav-icon-link {
+    transition:
+      color var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  .nav-icon-link:hover {
+    transform: scale(1.15);
+  }
+
+
+  /* --- CV-Items: sanftes Einblenden bei Seitenload --- */
+  .cv-item {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .cv-item:nth-child(1) { animation-delay: 0.05s; }
+  .cv-item:nth-child(2) { animation-delay: 0.10s; }
+  .cv-item:nth-child(3) { animation-delay: 0.15s; }
+  .cv-item:nth-child(4) { animation-delay: 0.20s; }
+  .cv-item:nth-child(5) { animation-delay: 0.25s; }
+  .cv-item:nth-child(6) { animation-delay: 0.30s; }
+
+
+  /* --- Projekt-Items auf der Übersichtsseite --- */
+  .projekt-item {
+    animation: fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .projekt-item:nth-child(1) { animation-delay: 0.05s; }
+  .projekt-item:nth-child(2) { animation-delay: 0.12s; }
+  .projekt-item:nth-child(3) { animation-delay: 0.19s; }
+  .projekt-item:nth-child(4) { animation-delay: 0.26s; }
+
+} /* end prefers-reduced-motion */
