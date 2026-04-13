@@ -49,6 +49,8 @@ content:
       - { name: prozess,      label: Prozess,      type: text,   required: false }
       - { name: ergebnis,     label: Ergebnis,     type: text,   required: false }
 
+      - { name: video, label: "Video (Embed-URL)", type: string, required: false }
+
       - name: bilder
         label: Bildslider
         type: object
