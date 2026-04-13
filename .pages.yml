@@ -40,27 +40,22 @@ content:
       - { name: role,        label: Rolle,         type: string,  required: false }
       - name: tags
         label: Tags
-        type: multiselect
+        type: string
+        list: true
         required: false
-        options:
-          - UX
-          - UI
-          - Research
-          - Branding
-          - Web
-          - Mobile
-      - { name: cover,         label: Cover-Bild,    type: image,     required: false }
+      - { name: cover,        label: Cover-Bild,   type: image,  required: false }
 
-      - { name: ausgangslage, label: Ausgangslage,  type: text,      required: false }
-      - { name: prozess,      label: Prozess,       type: text,      required: false }
-      - { name: ergebnis,     label: Ergebnis,      type: text,      required: false }
+      - { name: ausgangslage, label: Ausgangslage, type: text,   required: false }
+      - { name: prozess,      label: Prozess,      type: text,   required: false }
+      - { name: ergebnis,     label: Ergebnis,     type: text,   required: false }
 
       - name: bilder
         label: Bildslider
-        type: list
+        type: object
+        list: true
         required: false
         fields:
-          - { name: src, label: Bild,      type: image }
-          - { name: alt, label: Alt-Text,  type: string,  required: false }
+          - { name: src, label: Bild,     type: image }
+          - { name: alt, label: Alt-Text, type: string, required: false }
 
-      - { name: body,   label: Inhalt,      type: rich-text,  required: false }
+      - { name: body, label: Inhalt, type: rich-text, required: false }

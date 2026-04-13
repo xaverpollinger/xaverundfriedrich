@@ -38,13 +38,16 @@ bodyClass: page projekt-page
           </div>
         {% endif %}
 
-        {% if year or client %}
+        {% if year or client or role %}
           <dl class="projekt-detail__meta">
             {% if year %}
               <div><dt>Jahr</dt><dd>{{ year }}</dd></div>
             {% endif %}
             {% if client %}
               <div><dt>Kunde</dt><dd>{{ client }}</dd></div>
+            {% endif %}
+            {% if role %}
+              <div><dt>Rolle</dt><dd>{{ role }}</dd></div>
             {% endif %}
           </dl>
         {% endif %}
