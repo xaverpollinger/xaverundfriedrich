@@ -20,7 +20,7 @@ collections:
       - { label: "Layout",       name: "layout",      widget: "hidden", default: "projekt.njk" }
       - { label: "Titel",        name: "title",        widget: "string" }
       - { label: "Beschreibung", name: "description",  widget: "string" }
-      - { label: "Jahr",         name: "year",         widget: "number" }
+      - { label: "Jahr",         name: "year",         widget: "number", required: false }
       - { label: "Kunde",        name: "client",       widget: "string", required: false }
       - { label: "Rolle",        name: "role",         widget: "string", required: false }
       - label: "Tags"
@@ -31,4 +31,32 @@ collections:
         name: "cover"
         widget: "image"
         required: false
-      - { label: "Inhalt",       name: "body",         widget: "markdown" }
+
+      - label: "Ausgangslage"
+        name: "ausgangslage"
+        widget: "text"
+        required: false
+        hint: "Kontext und Problemstellung des Projekts"
+
+      - label: "Prozess"
+        name: "prozess"
+        widget: "text"
+        required: false
+        hint: "Vorgehen, Methoden und Entscheidungen"
+
+      - label: "Ergebnis"
+        name: "ergebnis"
+        widget: "text"
+        required: false
+        hint: "Outcome, Erkenntnisse und Wirkung"
+
+      - label: "Bildslider"
+        name: "bilder"
+        widget: "list"
+        required: false
+        hint: "Bilder werden als Slider auf der Projektseite angezeigt"
+        fields:
+          - { label: "Bild",      name: "src", widget: "image" }
+          - { label: "Alt-Text",  name: "alt", widget: "string", required: false }
+
+      - { label: "Zusätzlicher Inhalt", name: "body", widget: "markdown", required: false }
