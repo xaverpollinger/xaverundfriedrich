@@ -18,27 +18,59 @@ description: "Ausgewählte UX/UI-Projekte von Xaver Friedrich."
       <ul class="projekt-liste" role="list">
         {% for projekt in projekte %}
           <li class="projekt-item">
-            <a href="{{ projekt.url }}" class="projekt-item__link">
 
+            {# ── Bild-Link: Hover-Overlay mit Beschreibung ── #}
+            <a href="{{ projekt.url }}" class="projekt-item__media-link" tabindex="-1">
               <div class="projekt-item__media">
                 {% if projekt.data.cover %}
                   {% set coverSrc = projekt.data.cover | toSrcPath %}
                   {% image coverSrc, projekt.data.title, "(min-width: 720px) 720px, 90vw" %}
                 {% endif %}
+                {% if projekt.data.description %}
+                  <div class="projekt-item__overlay">
+                    <p class="projekt-item__overlay-text">{{ projekt.data.description }}</p>
+                  </div>
+                {% endif %}
               </div>
+            </a>
 
-              <div class="projekt-item__info">
-                <h2 class="projekt-item__title">{{ projekt.data.title }}</h2>
-                {% if projekt.data.year or projekt.data.role %}
-                  <p class="projekt-item__meta">
-                    {%- if projekt.data.year %}{{ projekt.data.year }}{% endif -%}
-                    {%- if projekt.data.year and projekt.data.role %} · {% endif -%}
-                    {%- if projekt.data.role %}{{ projekt.data.role }}{% endif -%}
-                  </p>
+            {# ── Info-Block: Titel + mobiler Toggle ── #}
+            <div class="projekt-item__info">
+              <div class="projekt-item__title-row">
+                <a href="{{ projekt.url }}" class="projekt-item__title-link">
+                  <h2 class="projekt-item__title">{{ projekt.data.title }}</h2>
+                </a>
+                {% if projekt.data.description %}
+                  <button class="projekt-item__toggle"
+                          aria-expanded="false"
+                          aria-label="Beschreibung einblenden">
+                    <span class="projekt-item__toggle-open">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+                        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path>
+                      </svg>
+                    </span>
+                    <span class="projekt-item__toggle-close">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" aria-hidden="true">
+                        <path d="M165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                      </svg>
+                    </span>
+                  </button>
                 {% endif %}
               </div>
 
-            </a>
+              {% if projekt.data.description %}
+                <p class="projekt-item__desc">{{ projekt.data.description }}</p>
+              {% endif %}
+
+              {% if projekt.data.year or projekt.data.role %}
+                <p class="projekt-item__meta">
+                  {%- if projekt.data.year %}{{ projekt.data.year }}{% endif -%}
+                  {%- if projekt.data.year and projekt.data.role %} · {% endif -%}
+                  {%- if projekt.data.role %}{{ projekt.data.role }}{% endif -%}
+                </p>
+              {% endif %}
+            </div>
+
           </li>
         {% endfor %}
       </ul>
@@ -48,3 +80,15 @@ description: "Ausgewählte UX/UI-Projekte von Xaver Friedrich."
   </div>
 
 </div>
+
+<script>
+  document.querySelectorAll('.projekt-item__toggle').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var item = btn.closest('.projekt-item');
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      item.classList.toggle('is-open', !expanded);
+    });
+  });
+</script>

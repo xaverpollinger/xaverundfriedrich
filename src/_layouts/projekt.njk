@@ -20,7 +20,7 @@ bodyClass: page projekt-page
 <div class="container">
   <article class="projekt-detail">
 
-    {# ── Intro: Description links, Meta rechts ── #}
+    {# ── Intro: Kurzbeschreibung links, Meta rechts ── #}
     <div class="projekt-detail__intro">
 
       <div class="projekt-detail__intro-left">
@@ -38,7 +38,7 @@ bodyClass: page projekt-page
           </div>
         {% endif %}
 
-        {% if year or client or role %}
+        {% if year or client %}
           <dl class="projekt-detail__meta">
             {% if year %}
               <div><dt>Jahr</dt><dd>{{ year }}</dd></div>
@@ -46,19 +46,81 @@ bodyClass: page projekt-page
             {% if client %}
               <div><dt>Kunde</dt><dd>{{ client }}</dd></div>
             {% endif %}
-            {% if role %}
-              <div><dt>Rolle</dt><dd>{{ role }}</dd></div>
-            {% endif %}
           </dl>
         {% endif %}
       </div>
 
     </div>
 
-    {# ── Body: Markdown-Content ── #}
-    <div class="projekt-detail__body">
-      {{ content | safe }}
-    </div>
+    {# ── Tab-Navigation: Ausgangslage / Prozess / Ergebnis ── #}
+    {% if ausgangslage or prozess or ergebnis %}
+      <div class="projekt-tabs">
+
+        <nav class="projekt-tabs__nav" aria-label="Projektabschnitte">
+          {% if ausgangslage %}
+            <button class="projekt-tab" data-key="ausgangslage">Ausgangslage</button>
+          {% endif %}
+          {% if prozess %}
+            <button class="projekt-tab" data-key="prozess">Prozess</button>
+          {% endif %}
+          {% if ergebnis %}
+            <button class="projekt-tab" data-key="ergebnis">Ergebnis</button>
+          {% endif %}
+        </nav>
+
+        <div class="projekt-tabs__panels">
+          {% if ausgangslage %}
+            <div class="projekt-tabs__panel" data-key="ausgangslage">
+              {{ ausgangslage | md | safe }}
+            </div>
+          {% endif %}
+          {% if prozess %}
+            <div class="projekt-tabs__panel" data-key="prozess" hidden>
+              {{ prozess | md | safe }}
+            </div>
+          {% endif %}
+          {% if ergebnis %}
+            <div class="projekt-tabs__panel" data-key="ergebnis" hidden>
+              {{ ergebnis | md | safe }}
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    {% endif %}
+
+    {# ── Optionaler Markdown-Body (für zusätzliche Inhalte) ── #}
+    {% if content | trim %}
+      <div class="projekt-detail__body">
+        {{ content | safe }}
+      </div>
+    {% endif %}
 
   </article>
 </div>
+
+<script>
+(function () {
+  var tabs   = Array.from(document.querySelectorAll('.projekt-tab'));
+  var panels = Array.from(document.querySelectorAll('.projekt-tabs__panel'));
+  if (!tabs.length) return;
+
+  function activate(btn) {
+    var key = btn.getAttribute('data-key');
+    tabs.forEach(function (t) { t.classList.toggle('is-active', t === btn); });
+    panels.forEach(function (p) {
+      if (p.getAttribute('data-key') === key) {
+        p.removeAttribute('hidden');
+      } else {
+        p.setAttribute('hidden', '');
+      }
+    });
+  }
+
+  tabs.forEach(function (btn) {
+    btn.addEventListener('click', function () { activate(btn); });
+  });
+
+  activate(tabs[0]);
+}());
+</script>

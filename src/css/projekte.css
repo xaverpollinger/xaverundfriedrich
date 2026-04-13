@@ -41,7 +41,8 @@
   margin: 0;
 }
 
-.projekt-item__link {
+/* ── Bild-Link ── */
+.projekt-item__media-link {
   display: block;
   text-decoration: none;
 }
@@ -64,20 +65,66 @@
   transition: transform var(--transition-base);
 }
 
-/* Hover: Bild zoomt leicht */
-.projekt-item__link:hover .projekt-item__media img {
+/* Desktop Hover: Bild zoomt + abdunkeln */
+.projekt-item__media-link:hover .projekt-item__media img {
   transform: scale(1.03);
 }
 
-/* Info-Block unter dem Bild — immer sichtbar */
+/* Hover-Overlay: dunkle Fläche mit Beschreibungstext */
+.projekt-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-6);
+  transition: background 250ms ease;
+  pointer-events: none;
+}
+
+.projekt-item__overlay-text {
+  color: #ffffff;
+  font-size: var(--type-p-s);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 250ms ease, transform 250ms ease;
+}
+
+.projekt-item__media-link:hover .projekt-item__overlay {
+  background: rgba(0, 0, 0, 0.58);
+}
+
+.projekt-item__media-link:hover .projekt-item__overlay-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Info-Block unter dem Bild ── */
 .projekt-item__info {
   padding-top: var(--space-4);
   padding-left: 0;
   transition: padding-left var(--transition-base);
 }
 
-.projekt-item__link:hover .projekt-item__info {
+.projekt-item:hover .projekt-item__info {
   padding-left: var(--space-3);
+}
+
+/* Titelzeile: Titel + mobiler Info-Button nebeneinander */
+.projekt-item__title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  justify-content: space-between;
+}
+
+.projekt-item__title-link {
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
 }
 
 .projekt-item__title {
@@ -86,6 +133,66 @@
   font-style: italic;
   line-height: var(--line-height-snug);
   color: var(--color-fg);
+}
+
+/* Mobiler Toggle-Button: nur auf kleinen Screens sichtbar */
+.projekt-item__toggle {
+  display: none;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-fg-muted);
+  line-height: 0;
+  transition: color var(--transition-base);
+}
+
+.projekt-item__toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Icon-Wechsel: i → X */
+.projekt-item__toggle-close { display: none; }
+.projekt-item__toggle[aria-expanded="true"] .projekt-item__toggle-open  { display: none; }
+.projekt-item__toggle[aria-expanded="true"] .projekt-item__toggle-close { display: flex; }
+.projekt-item__toggle[aria-expanded="true"] { color: var(--color-fg); }
+
+/* Beschreibung mobile: standardmäßig versteckt */
+.projekt-item__desc {
+  display: none;
+  font-size: var(--type-p-s);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg-muted);
+  line-height: var(--line-height-base);
+  margin-top: var(--space-2);
+}
+
+/* Wenn geöffnet */
+.projekt-item.is-open .projekt-item__desc {
+  display: block;
+}
+
+/* Desktop: Button verstecken, Overlay übernimmt die Aufgabe */
+@media (min-width: 640px) {
+  .projekt-item__toggle {
+    display: none !important;
+  }
+  .projekt-item__desc {
+    display: none !important;
+  }
+}
+
+/* Mobile: Button zeigen, Overlay deaktivieren */
+@media (max-width: 639px) {
+  .projekt-item__toggle {
+    display: flex;
+  }
+  .projekt-item__overlay {
+    display: none;
+  }
 }
 
 .projekt-item__meta {
@@ -291,4 +398,92 @@ body.projekt-page main {
   width: 100%;
   height: auto;
   margin-block: var(--space-10);
+}
+
+
+/* ============================================
+   TAB-NAVIGATION — Ausgangslage / Prozess / Ergebnis
+   ============================================ */
+
+/* Zwei-Spalten-Layout: Nav links, Content rechts */
+.projekt-tabs {
+  display: grid;
+  grid-template-columns: 2fr 4fr;
+  gap: var(--space-8);
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-20);
+  align-items: start;
+}
+
+/* Linke Spalte: Nav vertikal gestapelt */
+.projekt-tabs__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Button: immer h2-Größe im Layout → kein Y-Shift */
+.projekt-tab {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  padding-left: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--type-h2);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  white-space: nowrap;
+  line-height: 1.3;
+  text-align: left;
+  color: var(--color-fg-muted);
+  transform: scale(0.55);
+  transform-origin: left center;
+  transition: transform 0.2s ease, color 0.2s ease, padding-left var(--transition-base);
+}
+
+.projekt-tab:hover {
+  color: var(--color-fg);
+  padding-left: var(--space-3);
+}
+
+.projekt-tab.is-active {
+  transform: scale(1);
+  color: var(--color-fg);
+}
+
+.projekt-tab.is-active:hover {
+  padding-left: var(--space-3);
+}
+
+/* Rechte Spalte: Panel-Content */
+.projekt-tabs__panels {
+  padding-top: var(--space-1);
+}
+
+.projekt-tabs__panel {
+  font-size: var(--type-p-m);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  animation: tabFadeIn 0.2s ease;
+}
+
+.projekt-tabs__panel > * + * {
+  margin-top: var(--space-4);
+}
+
+/* Mobile: untereinander statt nebeneinander */
+@media (max-width: 639px) {
+  .projekt-tabs {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

@@ -1,5 +1,7 @@
-const Image = require("@11ty/eleventy-img");
-const fs    = require("fs");
+const Image      = require("@11ty/eleventy-img");
+const fs         = require("fs");
+const markdownIt = require("markdown-it");
+const md         = markdownIt({ html: false, breaks: true });
 
 // Bild-Shortcode: wandelt jedes Bild beim Build in AVIF + WebP + JPEG um
 // und erzeugt automatisch ein responsives <picture>-Tag.
@@ -53,6 +55,9 @@ module.exports = function (eleventyConfig) {
 
   // Bild-Shortcode registrieren (async!)
   eleventyConfig.addAsyncShortcode("image", imageShortcode);
+
+  // md-Filter: rendert Markdown-Strings aus Frontmatter-Feldern zu HTML
+  eleventyConfig.addFilter("md", (content) => md.render(content || ""));
 
   // toSrcPath-Filter: konvertiert öffentliche Bildpfade in Quellpfade für
   // das Eleventy Image Plugin.
