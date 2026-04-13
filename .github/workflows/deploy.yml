@@ -31,11 +31,9 @@ jobs:
         run: sudo apt-get install -y lftp
 
       - name: Auf Strato deployen (SFTP)
+        env:
+          SFTP_PASS: ${{ secrets.FTP_PASSWORD }}
         run: |
-          lftp -e "
-            set sftp:auto-confirm yes;
-            set net:timeout 30;
-            set net:max-retries 3;
-            mirror --reverse --delete --verbose ./_site/ ${{ secrets.FTP_SERVER_DIR }};
-            quit
-          " sftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_SERVER }}
+          lftp -u "${{ secrets.FTP_USERNAME }}","$SFTP_PASS" \
+               -e "set sftp:auto-confirm yes; set net:timeout 60; set net:max-retries 3; mirror --reverse --delete --no-perms ./_site/ ${{ secrets.FTP_SERVER_DIR }}; quit" \
+               sftp://${{ secrets.FTP_SERVER }}
