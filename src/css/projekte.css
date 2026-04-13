@@ -487,3 +487,76 @@ body.projekt-page main {
   from { opacity: 0; transform: translateY(5px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+
+/* ============================================
+   BILDSLIDER
+   ============================================ */
+
+.projekt-slider {
+  margin-top: var(--space-16);
+  padding-bottom: var(--space-20);
+}
+
+/* Viewport clippt den überstehenden Track */
+.projekt-slider__viewport {
+  overflow: hidden;
+}
+
+/* Track: alle Slides nebeneinander */
+.projekt-slider__track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Jede Slide: exakt 100% Viewport-Breite */
+.projekt-slider__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.projekt-slider__slide picture,
+.projekt-slider__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Controls: Pfeile außen, Zähler mittig */
+.projekt-slider__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+}
+
+.projekt-slider__counter {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  color: var(--color-fg-muted);
+  user-select: none;
+}
+
+.projekt-slider__prev,
+.projekt-slider__next {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-fg-muted);
+  line-height: 0;
+  transition: color var(--transition-base);
+}
+
+.projekt-slider__prev svg,
+.projekt-slider__next svg {
+  width: 22px;
+  height: 22px;
+}
+
+.projekt-slider__prev:hover,
+.projekt-slider__next:hover {
+  color: var(--color-fg);
+}

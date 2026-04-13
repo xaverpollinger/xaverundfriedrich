@@ -89,7 +89,34 @@ bodyClass: page projekt-page
       </div>
     {% endif %}
 
-    {# ── Optionaler Markdown-Body (für zusätzliche Inhalte) ── #}
+    {# ── Bildslider ── #}
+    {% if bilder and bilder.length %}
+      <div class="projekt-slider">
+        <div class="projekt-slider__viewport">
+          <div class="projekt-slider__track">
+            {% for bild in bilder %}
+              <div class="projekt-slider__slide">
+                {% set bildSrc = bild.src | toSrcPath %}
+                {% image bildSrc, bild.alt, "(min-width: 1152px) 1152px, 100vw" %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="projekt-slider__controls">
+          <button class="projekt-slider__prev" aria-label="Vorheriges Bild">
+            {% include "icons/arrow-circle-left.svg" %}
+          </button>
+          <span class="projekt-slider__counter">
+            <span class="projekt-slider__current">1</span>&thinsp;/&thinsp;{{ bilder.length }}
+          </span>
+          <button class="projekt-slider__next" aria-label="Nächstes Bild">
+            {% include "icons/arrow-circle-right.svg" %}
+          </button>
+        </div>
+      </div>
+    {% endif %}
+
+    {# ── Optionaler Markdown-Body ── #}
     {% if content | trim %}
       <div class="projekt-detail__body">
         {{ content | safe }}
@@ -101,26 +128,58 @@ bodyClass: page projekt-page
 
 <script>
 (function () {
+  // ── Tabs ──────────────────────────────────────────────────────
   var tabs   = Array.from(document.querySelectorAll('.projekt-tab'));
   var panels = Array.from(document.querySelectorAll('.projekt-tabs__panel'));
-  if (!tabs.length) return;
 
-  function activate(btn) {
-    var key = btn.getAttribute('data-key');
-    tabs.forEach(function (t) { t.classList.toggle('is-active', t === btn); });
-    panels.forEach(function (p) {
-      if (p.getAttribute('data-key') === key) {
-        p.removeAttribute('hidden');
-      } else {
-        p.setAttribute('hidden', '');
-      }
+  if (tabs.length) {
+    function activateTab(btn) {
+      var key = btn.getAttribute('data-key');
+      tabs.forEach(function (t) { t.classList.toggle('is-active', t === btn); });
+      panels.forEach(function (p) {
+        if (p.getAttribute('data-key') === key) p.removeAttribute('hidden');
+        else p.setAttribute('hidden', '');
+      });
+    }
+    tabs.forEach(function (btn) {
+      btn.addEventListener('click', function () { activateTab(btn); });
     });
+    activateTab(tabs[0]);
   }
 
-  tabs.forEach(function (btn) {
-    btn.addEventListener('click', function () { activate(btn); });
+  // ── Slider ────────────────────────────────────────────────────
+  var slider = document.querySelector('.projekt-slider');
+  if (!slider) return;
+
+  var track   = slider.querySelector('.projekt-slider__track');
+  var slides  = slider.querySelectorAll('.projekt-slider__slide');
+  var prev    = slider.querySelector('.projekt-slider__prev');
+  var next    = slider.querySelector('.projekt-slider__next');
+  var current = slider.querySelector('.projekt-slider__current');
+  var n       = slides.length;
+  var idx     = 0;
+
+  function goTo(i) {
+    idx = ((i % n) + n) % n;
+    track.style.transform = 'translateX(-' + idx * 100 + '%)';
+    if (current) current.textContent = idx + 1;
+  }
+
+  if (prev) prev.addEventListener('click', function () { goTo(idx - 1); });
+  if (next) next.addEventListener('click', function () { goTo(idx + 1); });
+
+  // Tastatur
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  goTo(idx - 1);
+    if (e.key === 'ArrowRight') goTo(idx + 1);
   });
 
-  activate(tabs[0]);
+  // Touch-Swipe
+  var touchX = 0;
+  track.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend',   function (e) {
+    var diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? idx + 1 : idx - 1);
+  });
 }());
 </script>
