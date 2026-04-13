@@ -3,9 +3,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# ── Trailing Slash normalisieren (außer echte Dateien) ────────────
+# ── Trailing Slash normalisieren (außer echte Dateien und .html-Endungen) ──
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]+$
 RewriteRule ^(.*)$ /$1/ [L,R=301]
 
 # ── Saubere URLs: /about/ → /about/index.html ────────────────────
