@@ -24,9 +24,10 @@ jobs:
       - name: Seite bauen
         run: npm run build
 
-      - name: Auf Strato deployen (FTP)
+      - name: Auf Strato deployen (SFTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
+          protocol: sftp
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
