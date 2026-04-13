@@ -27,6 +27,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/fonts");
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("public");
+  eleventyConfig.addPassthroughCopy({ "src/.htaccess": ".htaccess" });
 
   // CSS beim Build inline einbetten — eliminiert render-blocking stylesheet.
   // Reihenfolge ist wichtig: Tokens müssen vor Base stehen, etc.

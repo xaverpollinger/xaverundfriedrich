@@ -38,6 +38,9 @@
 
     {# --- CSS inline: kein render-blocking, kein extra Request --- #}
     <style>{% inlineCSS %}</style>
+
+    {# --- Construction Mode: sync laden (kein defer), verhindert Flash --- #}
+    <script src="/js/dev-mode.js"></script>
   </head>
 
   <body class="{{ bodyClass or 'page' }}">
