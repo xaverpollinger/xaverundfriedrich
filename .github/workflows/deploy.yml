@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,13 +27,15 @@ jobs:
       - name: Seite bauen
         run: npm run build
 
-      - name: Auf Strato deployen (FTPS)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          protocol: ftps
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          local-dir: ./_site/
-          dangerous-clean-slate: true
+      - name: lftp installieren
+        run: sudo apt-get install -y lftp
+
+      - name: Auf Strato deployen (SFTP)
+        run: |
+          lftp -e "
+            set sftp:auto-confirm yes;
+            set net:timeout 30;
+            set net:max-retries 3;
+            mirror --reverse --delete --verbose ./_site/ ${{ secrets.FTP_SERVER_DIR }};
+            quit
+          " sftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@${{ secrets.FTP_SERVER }}
