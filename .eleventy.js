@@ -112,6 +112,15 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addTransform("xf-shortcodes", function (content, outputPath) {
     if (!outputPath?.endsWith(".html")) return content;
 
+    // Pre-Processing: markdown-it encodiert " zu &quot; in Absätzen.
+    // Alle Shortcode-Muster innerhalb von <p>[xf:...]</p> vorab dekodieren,
+    // damit die nachfolgenden Regexes mit echten Anführungszeichen arbeiten.
+    content = content.replace(
+      /<p>\s*(\[xf:[^\]]+\])\s*<\/p>/g,
+      (match, shortcode) =>
+        `<p>${shortcode.replace(/&quot;/g, '"').replace(/&#39;/g, "'")}</p>`
+    );
+
     // --- [xf:video] ----------------------------------------------------------
     // Rendert einen DSGVO-konformen YouTube 2-Klick-Consent-Block.
     // Markdown schreibt: <p>[xf:video url="..."]</p>
@@ -189,6 +198,60 @@ module.exports = function (eleventyConfig) {
     content = content.replace(
       /<p>\s*\[xf:callout\s+text="([^"]+)"\]\s*<\/p>/g,
       (_, text) => `<blockquote class="xf-callout">${text}</blockquote>`
+    );
+
+    // --- [xf:summary] --------------------------------------------------------
+    // Tab-Navigation: Aufgabe / Idee / Prozess / Ergebnis
+    // Alle Felder optional — nur Tabs mit Inhalt werden gerendert.
+    //
+    // Syntax:
+    //   [xf:summary aufgabe="..." idee="..." prozess="..." ergebnis="..."]
+    //
+    // Felder können weggelassen werden. Reihenfolge ist fix: Aufgabe → Idee →
+    // Prozess → Ergebnis. Inhalte dürfen keine doppelten Anführungszeichen enthalten.
+    content = content.replace(
+      /<p>\s*\[xf:summary([^\]]+)\]\s*<\/p>/g,
+      (_, attrsRaw) => {
+        // Key-Value-Paare aus dem Attributstring parsen
+        const data = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => {
+          data[key] = val.trim();
+        });
+
+        // Nur definierte, nicht-leere Felder rendern
+        const felder = [
+          { key: "aufgabe",  label: "Aufgabe"  },
+          { key: "idee",     label: "Idee"     },
+          { key: "prozess",  label: "Prozess"  },
+          { key: "ergebnis", label: "Ergebnis" },
+        ].filter((f) => data[f.key]);
+
+        if (!felder.length) return "";
+
+        const tabs = felder
+          .map((f, i) =>
+            `      <button class="xf-summary__tab${i === 0 ? " is-active" : ""}" data-key="${f.key}"><span class="xf-summary__tab-inner">${f.label}</span></button>`
+          )
+          .join("\n");
+
+        const panels = felder
+          .map((f, i) =>
+            `    <div class="xf-summary__panel" data-key="${f.key}"${i > 0 ? " hidden" : ""}><p>${data[f.key]}</p></div>`
+          )
+          .join("\n");
+
+        return `
+<div class="xf-summary" data-summary>
+  <div class="xf-summary__track-wrap">
+    <nav class="xf-summary__track" aria-label="Projektübersicht">
+${tabs}
+    </nav>
+  </div>
+  <div class="xf-summary__panels">
+${panels}
+  </div>
+</div>`;
+      }
     );
 
     return content;

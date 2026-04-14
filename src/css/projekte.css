@@ -369,18 +369,28 @@ body.projekt-page main {
 }
 
 
-/* --- Body: Markdown-Content — rechtsbündig ausgerichtet --- */
+/* --- Body: Markdown-Content ---
+   Kein globales max-width — Block-Shortcodes (xf:summary, xf:slider etc.)
+   können volle Container-Breite nutzen. Fließtext-Elemente werden einzeln
+   auf Lesebreite begrenzt.                                                   */
 
 .projekt-detail__body {
-  max-width: var(--container-text);
-  margin-inline-start: 0;
-  margin-inline-end: auto;
   padding-top: var(--space-12);
   padding-bottom: var(--space-20);
 }
 
 .projekt-detail__body > * + * {
   margin-top: var(--space-6);
+}
+
+/* Fließtext: auf Lesebreite begrenzen */
+.projekt-detail__body > p,
+.projekt-detail__body > h2,
+.projekt-detail__body > h3,
+.projekt-detail__body > h4,
+.projekt-detail__body > ul,
+.projekt-detail__body > ol {
+  max-width: var(--container-text);
 }
 
 .projekt-detail__body h2 {
@@ -853,4 +863,153 @@ body.projekt-page main {
   font-style: italic;
   line-height: var(--line-height-snug);
   color: var(--color-fg);
+}
+
+
+/* ── xf:summary ──────────────────────────────────────────────────────────────
+   Desktop: 2-Spalten-Grid (Nav links, Panels rechts).
+            Slot-Höhen per JS fixiert → Nav springt nie.
+            paddingTop = activeIndex × slotH → Panel fluchtet mit Tab.
+   Mobile:  Tab-Bar slidet horizontal. Aktiver Tab immer an Position 0.
+            Panels darunter, volle Breite.                                   */
+
+/* ── Desktop ── */
+.xf-summary {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-8);
+  margin-block: var(--space-16);
+  align-items: start;
+}
+
+/* track-wrap ist auf Desktop unsichtbar — nav übernimmt die Rolle */
+.xf-summary__track-wrap {
+  display: contents; /* kein eigenes Box-Model, nav verhält sich wie direktes Kind */
+}
+
+.xf-summary__track {
+  display: flex;
+  flex-direction: column; /* Desktop: vertikal */
+  min-width: 0;
+}
+
+.xf-summary__tab {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-style: italic;
+  line-height: var(--line-height-snug);
+  overflow: visible;
+}
+
+.xf-summary__tab-inner {
+  display: block;
+  width: 40%;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--type-p-s);
+  font-weight: var(--weight-light);
+  color: var(--color-fg-muted);
+  white-space: nowrap;
+  transition:
+    width     0.35s ease,
+    font-size 0.35s ease,
+    color     0.35s ease,
+    padding   0.35s ease;
+}
+
+.xf-summary__tab:not(.is-active):hover .xf-summary__tab-inner {
+  color: var(--color-fg);
+}
+
+.xf-summary__tab.is-active .xf-summary__tab-inner {
+  width: 100%;
+  font-size: var(--type-h2);
+  font-weight: var(--weight-medium);
+  color: var(--color-fg);
+  padding-bottom: var(--space-4);
+}
+
+/* paddingTop per JS → Panel fluchtet mit aktivem Tab */
+.xf-summary__panels {
+  transition: padding-top 0.35s ease;
+  min-width: 0;
+}
+
+.xf-summary__panel {
+  font-size: var(--type-p-m);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  animation: xfSummaryFadeIn 0.2s ease;
+}
+
+.xf-summary__panel > p + p {
+  margin-top: var(--space-4);
+}
+
+@keyframes xfSummaryFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Messen ohne Transitions */
+.xf-summary--measuring .xf-summary__track,
+.xf-summary--measuring .xf-summary__tab-inner,
+.xf-summary--measuring .xf-summary__panels {
+  transition: none !important;
+}
+
+/* ── Mobile: horizontaler Slider ── */
+@media (max-width: 639px) {
+  .xf-summary {
+    display: block; /* kein Grid — alles im normalen Fluss */
+  }
+
+  .xf-summary__track-wrap {
+    display: block;
+    overflow-x: clip;  /* clippt horizontal ohne vertikalen Scroll zu erzeugen */
+  }
+
+  .xf-summary__track {
+    flex-direction: row; /* horizontal */
+    gap: var(--space-8);
+    width: max-content;
+    transition: transform 0.4s ease;
+  }
+
+  .xf-summary__tab {
+    width: auto;
+  }
+
+  .xf-summary__tab-inner {
+    width: auto !important;   /* kein prozentualer Wert auf Mobile */
+    font-size: var(--type-p-s) !important;
+    padding-block: var(--space-3) !important;
+    white-space: nowrap;
+    transition: color 0.25s ease, font-weight 0.25s ease !important;
+  }
+
+  .xf-summary__tab.is-active .xf-summary__tab-inner {
+    font-size: var(--type-h2) !important;
+    font-weight: var(--weight-medium) !important;
+    color: var(--color-fg) !important;
+    padding-bottom: var(--space-4) !important;
+  }
+
+  .xf-summary__panels {
+    padding-top: 0 !important;
+    transition: none;
+    margin-top: var(--space-6);
+  }
+
+  .xf-summary__panel {
+    font-size: var(--type-p-s);
+  }
 }

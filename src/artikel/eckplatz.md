@@ -14,6 +14,8 @@ tags:
 cover: /assets/images/eckplatz/eckplatz-corporate-design-logo-cover.webp
 ---
 
+[xf:summary aufgabe="Klassisches Branding konzentriert sich oft auf statische Printmedien und unflexible Manuals, die in der modernen Softwareentwicklung schnell an ihre Grenzen stoßen. Gesucht: eine Markenidentität, die von der ersten Skizze an für den digitalen Raum gedacht ist." idee="Eine Living Brand, die kontextuell responsiv ist und sich nahtlos in komplexe, funktionale Applikationen integrieren lässt. Statt starrer Richtlinien ein atomarer Gestaltungsansatz, bei dem fundamentale Markenelemente in Design Tokens übersetzt werden." prozess="Fundamentale Markenelemente wurden in Design Tokens abstrahiert. Die Farbpalette durchlief algorithmische Kontrastprüfungen (WCAG-Konformität). Die Typografie wurde als fluide, mathematisch berechnete Skala angelegt, um auf sämtlichen Viewports maximale Lesbarkeit zu garantieren." ergebnis="Ein skalierbares, rein digitales Marken-Ökosystem. Das Corporate Design fungiert nicht als ausgedrucktes Handbuch, sondern als programmierbare Komponentenbibliothek, die Frontend-Entwicklern eine fehlerfreie und effiziente Implementierung ermöglicht."]
+
 Das Projekt "Eckplatz" schließt ganz bewusst die historische Lücke zwischen klassischer Markenbildung und moderner digitaler Systemarchitektur. Für Agenturen beweist es ein tiefes, ganzheitliches Verständnis für visuelle Identitäten, während es der Tech-Branche signalisiert: Hier wird Branding als funktionales Software-Fundament verstanden.
 
 [xf:slider bilder="eckplatz/eckplatz-corporate-design-logo-cover.webp, eckplatz/eckplatz-website-mockup-veranstaltungen-01.webp, eckplatz/eckplatz-event-poster-02.webp"]

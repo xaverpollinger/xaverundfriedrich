@@ -210,6 +210,97 @@
         });
       });
 
+      // ── xf:summary ──────────────────────────────────────────────────────
+      //
+      // Desktop (≥640px): 2-Spalten-Grid. Slot-Höhen fixiert, paddingTop
+      //   = activeIndex × slotH → Panel fluchtet mit Tab.
+      //
+      // Mobile (<640px): Tab-Track slidet horizontal (translateX).
+      //   Aktiver Tab immer an Position 0 (linker Rand).
+      //   Tab-Größe bleibt identisch → Track-Höhe konstant.
+
+      document.querySelectorAll('[data-summary]').forEach(function (summary) {
+        var tabs     = Array.from(summary.querySelectorAll('.xf-summary__tab'));
+        var panels   = Array.from(summary.querySelectorAll('.xf-summary__panel'));
+        var panelsEl = summary.querySelector('.xf-summary__panels');
+        var track    = summary.querySelector('.xf-summary__track');
+        var slotH    = 0;
+        var BP       = 640;
+
+        function isMobile() { return window.innerWidth < BP; }
+
+        // ── Desktop: Slot-Höhen fixieren ──
+        function setupDesktop() {
+          track.style.transform = '';
+          tabs.forEach(function (t) { t.style.height = ''; });
+          panelsEl.style.paddingTop = '';
+
+          var activeTab = tabs.find(function (t) { return t.classList.contains('is-active'); }) || tabs[0];
+          var h = activeTab.offsetHeight;
+          tabs.forEach(function (t) { t.style.height = h + 'px'; });
+          var idx = tabs.indexOf(activeTab);
+          panelsEl.style.paddingTop = (idx * h) + 'px';
+          return h;
+        }
+
+        // ── Mobile: Tab-Reihenfolge im DOM neu setzen ──
+        // Aktives Tab zuerst, dann die restlichen zirkulär in Originalreihenfolge.
+        // Kein translateX nötig — das aktive Tab sitzt immer an Position 0.
+        function reorderMobile(idx) {
+          var n = tabs.length;
+          for (var i = 0; i < n; i++) {
+            track.appendChild(tabs[(idx + i) % n]);
+          }
+          track.style.transform = '';
+        }
+
+        function activate(idx) {
+          tabs.forEach(function (t, i) { t.classList.toggle('is-active', i === idx); });
+          panels.forEach(function (p, i) {
+            if (i === idx) { p.removeAttribute('hidden'); }
+            else           { p.setAttribute('hidden', ''); }
+          });
+
+          if (isMobile()) {
+            reorderMobile(idx);
+            panelsEl.style.paddingTop = '';
+          } else {
+            track.style.transform = '';
+            panelsEl.style.paddingTop = (idx * slotH) + 'px';
+          }
+        }
+
+        tabs.forEach(function (btn, i) {
+          btn.addEventListener('click', function () { activate(i); });
+        });
+
+        var trackWrap = summary.querySelector('.xf-summary__track-wrap');
+
+        function init() {
+          // Maximale Track-Höhe einmalig messen (aktiver Tab = h2-Zustand = größter Zustand)
+          // + 16px Puffer → min-height auf beiden Viewports fixieren.
+          // Kein Springen mehr egal welcher Tab aktiv ist.
+          trackWrap.style.minHeight = '';
+          var activeTab = tabs.find(function (t) { return t.classList.contains('is-active'); }) || tabs[0];
+          trackWrap.style.minHeight = (activeTab.offsetHeight + 16) + 'px';
+
+          if (isMobile()) {
+            tabs.forEach(function (t) { t.style.height = ''; });
+            slotH = 0;
+          } else {
+            slotH = setupDesktop();
+          }
+        }
+
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(init);
+        } else {
+          init();
+        }
+
+        window.addEventListener('resize', init, { passive: true });
+      });
+
       // ── xf:slider ───────────────────────────────────────────────────────
       document.querySelectorAll('[data-slider]').forEach(function (slider) {
         var track  = slider.querySelector('.xf-slider__track');

@@ -13,6 +13,8 @@ tags:
 cover: /assets/images/bloc/bloc-erlebnisguide-cover.webp
 ---
 
+[xf:summary aufgabe="Die Aufgabenstellung verlangte die Entwicklung eines Erlebnisguides. Anstatt eines klassischen Reiseführers wurde das Konzept auf das alltägliche Erleben und Erlernen neuer Hobbys fokussiert. Herausforderung: eine App gestalten, die Nutzer langfristig motiviert, ihre Komfortzone zu verlassen." idee="Was wäre wenn das Entdecken neuer Hobbys sich anfühlt wie ein Spiel? Neue Interessen fallen als interaktive Bauklötze in die App. Erlernte Fähigkeiten werden in motivierenden Skill-Trees dargestellt, in denen aufeinander aufbauende Aufgaben absolviert werden." prozess="Der nutzerzentrierte Designprozess begann mit qualitativen Interviews und der Definition von Personas. Frühe Wireframes basierten auf einem komplexen graphen-basierten Ansatz. Durch kontinuierliche Überprüfung und Iteration wurden diese Ideen rigoros vereinfacht." ergebnis="Ein klares, benutzerfreundliches Interface-Konzept mit starkem Gamification-Fokus. Das Projekt beweist die essenzielle Fähigkeit, unübersichtliche Feature-Ideen durch iteratives Testing in ein nutzbares, funktionales Kernprodukt zu transformieren."]
+
 Das Projekt BLOC veranschaulicht für Produktentwicklungs-Teams und Agenturen einen der wichtigsten Lernprozesse im UX-Design: Das systematische Reduzieren von Komplexität ("Kill your Darlings") zugunsten einer besseren User Experience.
 
 [xf:slider bilder="bloc/bloc-erlebnisguide-cover.webp, bloc/bloc-onboarding-flow-01.webp, bloc/bloc-aktivitaetsparameter-home-02.webp"]
