@@ -3,45 +3,64 @@ layout: base.njk
 bodyClass: page projekt-page
 ---
 
-{# ── Platzhalter-Layout ─────────────────────────────────────────────────────
-   Dieses Layout wird durch das neue Design ersetzt.
-   Der Body-Content (inkl. [xf:...]-Shortcode-Blöcke) wird bereits korrekt
-   gerendert und transformiert — nur das visuelle Wrapper-Design fehlt noch.    #}
+{# ── Hero: Cover mit Titel-Overlay ── #}
+<div class="projekt-hero-wrap">
+  <div class="projekt-hero">
+    {% if cover %}
+      {% set coverSrc = cover | toSrcPath %}
+      {% image coverSrc, title, "(min-width: 1152px) 1152px, 100vw" %}
+    {% endif %}
+    <div class="projekt-hero__gradient"></div>
+    <div class="projekt-hero__title-wrap">
+      <h1 class="projekt-hero__title">{{ title }}</h1>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <article class="projekt-detail">
 
-    {# ── Meta-Header ── #}
-    <header class="projekt-detail__header">
-      {% if cover %}
-        <img src="{{ cover }}" alt="{{ title }}" loading="eager">
-      {% endif %}
-      <h1>{{ title }}</h1>
-      {% if description %}
-        <p>{{ description }}</p>
-      {% endif %}
+    {# ── Intro: Kurzbeschreibung links, Meta rechts ── #}
+    <div class="projekt-detail__intro">
 
-      <dl>
-        {% if year %}<div><dt>Jahr</dt><dd>{{ year }}</dd></div>{% endif %}
-        {% if client %}<div><dt>Kunde</dt><dd>{{ client }}</dd></div>{% endif %}
-        {% if role %}<div><dt>Rolle</dt><dd>{{ role }}</dd></div>{% endif %}
-      </dl>
+      <div class="projekt-detail__intro-left">
+        {% if description %}
+          <p class="p-m-bold">{{ description }}</p>
+        {% endif %}
+      </div>
 
-      {% if tags and tags.length %}
-        <div>
-          {% for tag in tags %}
-            <span class="projekt-tag">{{ tag }}</span>
-          {% endfor %}
-        </div>
-      {% endif %}
-    </header>
+      <div class="projekt-detail__intro-right">
+        {% if year or client or role %}
+          <dl class="projekt-detail__meta">
+            {% if year %}
+              <div><dt>Jahr</dt><dd>{{ year }}</dd></div>
+            {% endif %}
+            {% if client %}
+              <div><dt>Kunde</dt><dd>{{ client }}</dd></div>
+            {% endif %}
+            {% if role %}
+              <div><dt>Rolle</dt><dd>{{ role }}</dd></div>
+            {% endif %}
+          </dl>
+        {% endif %}
 
-    {# ── Body: Markdown + transformierte Shortcode-Blöcke ── #}
-    <div class="projekt-detail__body">
-      {{ content | safe }}
+        {% if tags and tags.length %}
+          <div class="projekt-detail__tags">
+            {% for tag in tags %}
+              <span class="projekt-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
     </div>
+
+    {# ── Body: Markdown + transformierte [xf:...]-Shortcode-Blöcke ── #}
+    {% if content | trim %}
+      <div class="projekt-detail__body">
+        {{ content | safe }}
+      </div>
+    {% endif %}
 
   </article>
 </div>
-
-{# Alter Slider-JS aus projekt.njk entfernt — läuft jetzt global in base.njk #}
