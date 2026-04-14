@@ -1,4 +1,5 @@
 ---
+typ: blog
 title: Warum ich meine Portfolio-Website selbst baue
 description: Über Zero-Dependency, echtes Verständnis von Code und die Entscheidung gegen Frameworks.
 date: 2026-04-08

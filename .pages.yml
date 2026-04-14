@@ -4,60 +4,47 @@ media:
 
 content:
 
-  - name: blog
-    label: Blog
+  - name: artikel
+    label: Artikel
     type: collection
-    path: src/blog
+    path: src/artikel
     view:
-      fields: [title, date]
+      fields: [title, typ, year, date]
     fields:
-      - { name: title,       label: Titel,         type: string }
-      - { name: description, label: Beschreibung,  type: string }
-      - { name: date,        label: Datum,         type: date }
-      - name: tags
-        label: Tags
-        type: multiselect
-        required: false
-        options:
-          - Design
-          - UX
-          - Code
-          - Meta
-          - Typografie
-      - { name: body, label: Inhalt, type: rich-text }
 
-  - name: projekte
-    label: Projekte
-    type: collection
-    path: src/projekte
-    view:
-      fields: [title, year, client]
-    fields:
-      - { name: title,       label: Titel,         type: string }
-      - { name: description, label: Beschreibung,  type: string }
-      - { name: year,        label: Jahr,          type: number }
-      - { name: client,      label: Kunde,         type: string,  required: false }
-      - { name: role,        label: Rolle,         type: string,  required: false }
+      # ── Pflichtfelder ──────────────────────────────────────────────────────
+      - name: typ
+        label: Typ
+        type: select
+        options:
+          - { value: projekt, label: Projekt }
+          - { value: blog,    label: Blogpost }
+
+      - { name: title,       label: Titel,        type: string }
+      - { name: description, label: Beschreibung, type: string, required: false }
+
+      # ── Nur für Projekte ───────────────────────────────────────────────────
+      - { name: year,   label: Jahr,   type: number, required: false }
+      - { name: client, label: Kunde,  type: string, required: false }
+      - { name: role,   label: Rolle,  type: string, required: false }
+      - { name: cover,  label: Cover,  type: image,  required: false }
+
       - name: tags
         label: Tags
         type: string
         list: true
         required: false
-      - { name: cover,        label: Cover-Bild,   type: image,  required: false }
 
-      - { name: ausgangslage, label: Ausgangslage, type: text,   required: false }
-      - { name: prozess,      label: Prozess,      type: text,   required: false }
-      - { name: ergebnis,     label: Ergebnis,     type: text,   required: false }
+      # ── Nur für Blogposts ─────────────────────────────────────────────────
+      - { name: date, label: Datum, type: date, required: false }
 
-      - { name: video, label: "Video (Embed-URL)", type: string, required: false }
-
-      - name: bilder
-        label: Bildslider
-        type: object
-        list: true
-        required: false
-        fields:
-          - { name: src, label: Bild,     type: image }
-          - { name: alt, label: Alt-Text, type: string, required: false }
-
-      - { name: body, label: Inhalt, type: rich-text, required: false }
+      # ── Inhalt ────────────────────────────────────────────────────────────
+      # Nutze [xf:...]-Shortcodes für Blöcke:
+      #
+      #   [xf:video url="https://www.youtube-nocookie.com/embed/ID"]
+      #   [xf:slider bilder="ordner/bild1.webp, ordner/bild2.webp"]
+      #   [xf:bild src="ordner/bild.webp" alt="Beschreibung"]
+      #   [xf:bild-duo links="ordner/a.webp" rechts="ordner/b.webp"]
+      #   [xf:callout text="Kernaussage oder Zitat"]
+      #
+      - { name: body, label: Inhalt, type: rich-text }

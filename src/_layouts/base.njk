@@ -189,5 +189,76 @@
       {% endfor %}
     {% endif %}
 
+    {# ── Shortcode-Komponenten JS ──────────────────────────────────────────
+       Läuft nur wenn xf-Komponenten auf der Seite vorhanden sind.
+       Behandelt: [xf:video] Consent und [xf:slider] Interaktion.              #}
+    <script>
+    (function () {
+
+      // ── xf:video Consent ────────────────────────────────────────────────
+      // Ersetzt Consent-Button durch iframe sobald Nutzer klickt.
+      document.querySelectorAll('.xf-video__consent').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var src = btn.getAttribute('data-src');
+          var iframe = document.createElement('iframe');
+          iframe.src = src + '?autoplay=1';
+          iframe.title = 'Video';
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+          iframe.setAttribute('allowfullscreen', '');
+          btn.replaceWith(iframe);
+        });
+      });
+
+      // ── xf:slider ───────────────────────────────────────────────────────
+      document.querySelectorAll('[data-slider]').forEach(function (slider) {
+        var track  = slider.querySelector('.xf-slider__track');
+        var slides = slider.querySelectorAll('.xf-slider__slide');
+        var prev   = slider.querySelector('.xf-slider__arrow--prev');
+        var next   = slider.querySelector('.xf-slider__arrow--next');
+        var dots   = slider.querySelectorAll('.xf-slider__dot');
+        var n      = slides.length;
+        var idx    = 0;
+
+        if (n <= 1) {
+          if (prev) prev.style.display = 'none';
+          if (next) next.style.display = 'none';
+          return;
+        }
+
+        function goTo(i) {
+          idx = ((i % n) + n) % n;
+          track.style.transform = 'translateX(-' + idx * 100 + '%)';
+          dots.forEach(function (d, di) {
+            d.classList.toggle('is-active', di === idx);
+          });
+        }
+
+        if (prev) prev.addEventListener('click', function () { goTo(idx - 1); });
+        if (next) next.addEventListener('click', function () { goTo(idx + 1); });
+
+        dots.forEach(function (d, di) {
+          d.addEventListener('click', function () { goTo(di); });
+        });
+
+        // Touch-Swipe
+        var touchX = 0;
+        track.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', function (e) {
+          var diff = touchX - e.changedTouches[0].clientX;
+          if (Math.abs(diff) > 40) goTo(diff > 0 ? idx + 1 : idx - 1);
+        });
+
+        // Tastatur (nur wenn Slider fokussiert)
+        slider.setAttribute('tabindex', '0');
+        slider.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft')  goTo(idx - 1);
+          if (e.key === 'ArrowRight') goTo(idx + 1);
+        });
+      });
+
+    }());
+    </script>
+
   </body>
 </html>

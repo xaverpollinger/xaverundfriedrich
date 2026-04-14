@@ -80,21 +80,119 @@ module.exports = function (eleventyConfig) {
     return "/" + parts.join("/") + "/";
   });
 
-  // Projekte-Collection: alle Markdown-Dateien in src/projekte/,
+  // Projekte-Collection: alle Artikel mit typ: projekt,
   // nach Jahr absteigend sortiert (neueste zuerst).
   eleventyConfig.addCollection("projekte", (api) =>
     api
-      .getFilteredByGlob("src/projekte/*.md")
+      .getFilteredByGlob("src/artikel/*.md")
+      .filter((item) => item.data.typ === "projekt")
       .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0))
   );
 
-  // Blog-Collection: alle Markdown-Dateien in src/blog/,
+  // Blog-Collection: alle Artikel mit typ: blog,
   // nach Datum absteigend sortiert (neueste zuerst).
   eleventyConfig.addCollection("blog", (api) =>
     api
-      .getFilteredByGlob("src/blog/*.md")
+      .getFilteredByGlob("src/artikel/*.md")
+      .filter((item) => item.data.typ === "blog")
       .sort((a, b) => b.date - a.date)
   );
+
+  // ---------------------------------------------------------------------------
+  // Shortcode Transform: ersetzt [xf:...]-Blöcke im body durch HTML-Komponenten.
+  // Läuft einmalig beim Build auf dem fertigen HTML-Output — kein Runtime-Overhead.
+  //
+  // Verfügbare Shortcodes:
+  //   [xf:video url="https://youtube-nocookie.com/embed/ID"]
+  //   [xf:slider bilder="ordner/bild1.webp, ordner/bild2.webp"]
+  //   [xf:bild src="ordner/bild.webp" alt="Beschreibung"]
+  //   [xf:bild-duo links="ordner/a.webp" rechts="ordner/b.webp"]
+  //   [xf:callout text="Kernaussage oder Zitat"]
+  // ---------------------------------------------------------------------------
+  eleventyConfig.addTransform("xf-shortcodes", function (content, outputPath) {
+    if (!outputPath?.endsWith(".html")) return content;
+
+    // --- [xf:video] ----------------------------------------------------------
+    // Rendert einen DSGVO-konformen YouTube 2-Klick-Consent-Block.
+    // Markdown schreibt: <p>[xf:video url="..."]</p>
+    content = content.replace(
+      /<p>\s*\[xf:video\s+url="([^"]+)"\]\s*<\/p>/g,
+      (_, url) => `
+<div class="xf-video">
+  <div class="xf-video__ratio">
+    <button class="xf-video__consent" data-src="${url}" aria-label="Video laden">
+      <span class="xf-video__play">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5"/>
+          <polygon points="10,8 10,16 17,12" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="xf-video__label">Durch Ihren Klick erklären Sie sich damit einverstanden, dass eine Verbindung zu YouTube (Google) aufgebaut wird und dabei personenbezogene Daten auch in die USA fließen können. Mehr Infos in unserer <a href="/datenschutz/" class="xf-video__privacy-link" onclick="event.stopPropagation()">Datenschutzerklärung</a>.</span>
+    </button>
+  </div>
+</div>`
+    );
+
+    // --- [xf:slider] ---------------------------------------------------------
+    // Rendert einen Bildslider. Pfade relativ zu /assets/images/.
+    content = content.replace(
+      /<p>\s*\[xf:slider\s+bilder="([^"]+)"\]\s*<\/p>/g,
+      (_, bilderStr) => {
+        const bilder = bilderStr.split(",").map((b) => b.trim()).filter(Boolean);
+        const slides = bilder
+          .map(
+            (b) =>
+              `<div class="xf-slider__slide"><img src="/assets/images/${b}" alt="" loading="lazy" decoding="async"></div>`
+          )
+          .join("\n        ");
+        const dots = bilder
+          .map(
+            (_, i) =>
+              `<button class="xf-slider__dot${i === 0 ? " is-active" : ""}" aria-label="Bild ${i + 1}"></button>`
+          )
+          .join("\n        ");
+        return `
+<div class="xf-slider" data-slider>
+  <div class="xf-slider__track">
+        ${slides}
+  </div>
+  <button class="xf-slider__arrow xf-slider__arrow--prev" aria-label="Vorheriges Bild">&#8592;</button>
+  <button class="xf-slider__arrow xf-slider__arrow--next" aria-label="Nächstes Bild">&#8594;</button>
+  <div class="xf-slider__dots">
+        ${dots}
+  </div>
+</div>`;
+      }
+    );
+
+    // --- [xf:bild] -----------------------------------------------------------
+    // Einzelbild, volle Breite. Pfad relativ zu /assets/images/.
+    content = content.replace(
+      /<p>\s*\[xf:bild\s+src="([^"]+)"(?:\s+alt="([^"]*)")?\]\s*<\/p>/g,
+      (_, src, alt = "") =>
+        `<figure class="xf-bild"><img src="/assets/images/${src}" alt="${alt}" loading="lazy" decoding="async"></figure>`
+    );
+
+    // --- [xf:bild-duo] -------------------------------------------------------
+    // Zwei Bilder nebeneinander. Pfade relativ zu /assets/images/.
+    content = content.replace(
+      /<p>\s*\[xf:bild-duo\s+links="([^"]+)"\s+rechts="([^"]+)"\]\s*<\/p>/g,
+      (_, links, rechts) => `
+<div class="xf-bild-duo">
+  <figure class="xf-bild-duo__item"><img src="/assets/images/${links}" alt="" loading="lazy" decoding="async"></figure>
+  <figure class="xf-bild-duo__item"><img src="/assets/images/${rechts}" alt="" loading="lazy" decoding="async"></figure>
+</div>`
+    );
+
+    // --- [xf:callout] --------------------------------------------------------
+    // Hervorgehobene Textbox / Zitat.
+    content = content.replace(
+      /<p>\s*\[xf:callout\s+text="([^"]+)"\]\s*<\/p>/g,
+      (_, text) => `<blockquote class="xf-callout">${text}</blockquote>`
+    );
+
+    return content;
+  });
 
   // Datum lesbar: 8. April 2026
   eleventyConfig.addFilter("dateReadable", (date) =>

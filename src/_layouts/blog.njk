@@ -1,0 +1,37 @@
+---
+layout: base.njk
+bodyClass: page blog-page
+---
+
+{# ── Platzhalter-Layout ─────────────────────────────────────────────────────
+   Dieses Layout wird durch das neue Design ersetzt.
+   Body-Content inkl. [xf:...]-Shortcodes wird bereits korrekt gerendert.      #}
+
+<div class="container">
+  <article class="blog-post">
+
+    {# ── Meta-Header ── #}
+    <header class="blog-post__header">
+      <h1>{{ title }}</h1>
+      {% if date %}
+        <time datetime="{{ date | dateISO }}">{{ date | dateReadable }}</time>
+      {% endif %}
+      {% if description %}
+        <p>{{ description }}</p>
+      {% endif %}
+      {% if tags and tags.length %}
+        <div>
+          {% for tag in tags %}
+            <span class="blog-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </header>
+
+    {# ── Body: Markdown + transformierte Shortcode-Blöcke ── #}
+    <div class="blog-post__body">
+      {{ content | safe }}
+    </div>
+
+  </article>
+</div>

@@ -3,218 +3,45 @@ layout: base.njk
 bodyClass: page projekt-page
 ---
 
-{# ── Hero: Cover mit Titel-Overlay ── #}
-<div class="projekt-hero-wrap">
-  <div class="projekt-hero">
-    {% if cover %}
-      {% set coverSrc = cover | toSrcPath %}
-      {% image coverSrc, title, "(min-width: 1152px) 1152px, 100vw" %}
-    {% endif %}
-    <div class="projekt-hero__gradient"></div>
-    <div class="projekt-hero__title-wrap">
-      <h1 class="projekt-hero__title">{{ title }}</h1>
-    </div>
-  </div>
-</div>
+{# ── Platzhalter-Layout ─────────────────────────────────────────────────────
+   Dieses Layout wird durch das neue Design ersetzt.
+   Der Body-Content (inkl. [xf:...]-Shortcode-Blöcke) wird bereits korrekt
+   gerendert und transformiert — nur das visuelle Wrapper-Design fehlt noch.    #}
 
 <div class="container">
   <article class="projekt-detail">
 
-    {# ── Intro: Kurzbeschreibung links, Meta rechts ── #}
-    <div class="projekt-detail__intro">
+    {# ── Meta-Header ── #}
+    <header class="projekt-detail__header">
+      {% if cover %}
+        <img src="{{ cover }}" alt="{{ title }}" loading="eager">
+      {% endif %}
+      <h1>{{ title }}</h1>
+      {% if description %}
+        <p>{{ description }}</p>
+      {% endif %}
 
-      <div class="projekt-detail__intro-left">
-        {% if description %}
-          <p class="p-m-bold">{{ description }}</p>
-        {% endif %}
-      </div>
+      <dl>
+        {% if year %}<div><dt>Jahr</dt><dd>{{ year }}</dd></div>{% endif %}
+        {% if client %}<div><dt>Kunde</dt><dd>{{ client }}</dd></div>{% endif %}
+        {% if role %}<div><dt>Rolle</dt><dd>{{ role }}</dd></div>{% endif %}
+      </dl>
 
-      <div class="projekt-detail__intro-right">
-        {% if tags and tags.length %}
-          <div class="projekt-detail__tags">
-            {% for tag in tags %}
-              <span class="projekt-tag">{{ tag }}</span>
-            {% endfor %}
-          </div>
-        {% endif %}
+      {% if tags and tags.length %}
+        <div>
+          {% for tag in tags %}
+            <span class="projekt-tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </header>
 
-        {% if year or client or role %}
-          <dl class="projekt-detail__meta">
-            {% if year %}
-              <div><dt>Jahr</dt><dd>{{ year }}</dd></div>
-            {% endif %}
-            {% if client %}
-              <div><dt>Kunde</dt><dd>{{ client }}</dd></div>
-            {% endif %}
-            {% if role %}
-              <div><dt>Rolle</dt><dd>{{ role }}</dd></div>
-            {% endif %}
-          </dl>
-        {% endif %}
-      </div>
-
+    {# ── Body: Markdown + transformierte Shortcode-Blöcke ── #}
+    <div class="projekt-detail__body">
+      {{ content | safe }}
     </div>
-
-    {# ── Tab-Navigation: Ausgangslage / Prozess / Ergebnis ── #}
-    {% if ausgangslage or prozess or ergebnis %}
-      <div class="projekt-tabs">
-
-        <nav class="projekt-tabs__nav" aria-label="Projektabschnitte">
-          {% if ausgangslage %}
-            <button class="projekt-tab" data-key="ausgangslage">Ausgangslage</button>
-          {% endif %}
-          {% if prozess %}
-            <button class="projekt-tab" data-key="prozess">Prozess</button>
-          {% endif %}
-          {% if ergebnis %}
-            <button class="projekt-tab" data-key="ergebnis">Ergebnis</button>
-          {% endif %}
-        </nav>
-
-        <div class="projekt-tabs__panels">
-          {% if ausgangslage %}
-            <div class="projekt-tabs__panel" data-key="ausgangslage">
-              {{ ausgangslage | md | safe }}
-            </div>
-          {% endif %}
-          {% if prozess %}
-            <div class="projekt-tabs__panel" data-key="prozess" hidden>
-              {{ prozess | md | safe }}
-            </div>
-          {% endif %}
-          {% if ergebnis %}
-            <div class="projekt-tabs__panel" data-key="ergebnis" hidden>
-              {{ ergebnis | md | safe }}
-            </div>
-          {% endif %}
-        </div>
-
-      </div>
-    {% endif %}
-
-    {# ── Video ── #}
-    {% if video and video | trim %}
-      <div class="projekt-video">
-        <div class="projekt-video__ratio">
-          <button class="projekt-video__consent" data-src="{{ video }}" aria-label="Video laden">
-            <span class="projekt-video__play">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm40.44-94.21-56-40A8,8,0,0,0,100,88v80a8,8,0,0,0,12.44,6.63l56-40a8,8,0,0,0,0-13.26Z"/>
-              </svg>
-            </span>
-            <span class="projekt-video__label">Durch Ihren Klick erklären Sie sich damit einverstanden, dass eine Verbindung zu YouTube (Google) aufgebaut wird und dabei personenbezogene Daten auch in die USA fließen können. Mehr Infos finden Sie in unserer <a href="/datenschutz/" class="projekt-video__privacy-link" onclick="event.stopPropagation()">Datenschutzerklärung</a>.</span>
-          </button>
-        </div>
-      </div>
-    {% endif %}
-
-    {# ── Bildslider ── #}
-    {% if bilder and bilder.length %}
-      <div class="projekt-slider">
-        <div class="projekt-slider__viewport">
-          <div class="projekt-slider__track">
-            {% for bild in bilder %}
-              <div class="projekt-slider__slide">
-                {% set bildSrc = bild.src | toSrcPath %}
-                {% image bildSrc, bild.alt, "(min-width: 1152px) 1152px, 100vw" %}
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-        <div class="projekt-slider__controls">
-          <button class="projekt-slider__prev" aria-label="Vorheriges Bild">
-            {% include "icons/arrow-circle-left.svg" %}
-          </button>
-          <span class="projekt-slider__counter">
-            <span class="projekt-slider__current">1</span>&thinsp;/&thinsp;{{ bilder.length }}
-          </span>
-          <button class="projekt-slider__next" aria-label="Nächstes Bild">
-            {% include "icons/arrow-circle-right.svg" %}
-          </button>
-        </div>
-      </div>
-    {% endif %}
-
-    {# ── Optionaler Markdown-Body ── #}
-    {% if content | trim %}
-      <div class="projekt-detail__body">
-        {{ content | safe }}
-      </div>
-    {% endif %}
 
   </article>
 </div>
 
-<script>
-(function () {
-  // ── Tabs ──────────────────────────────────────────────────────
-  var tabs   = Array.from(document.querySelectorAll('.projekt-tab'));
-  var panels = Array.from(document.querySelectorAll('.projekt-tabs__panel'));
-
-  if (tabs.length) {
-    function activateTab(btn) {
-      var key = btn.getAttribute('data-key');
-      tabs.forEach(function (t) { t.classList.toggle('is-active', t === btn); });
-      panels.forEach(function (p) {
-        if (p.getAttribute('data-key') === key) p.removeAttribute('hidden');
-        else p.setAttribute('hidden', '');
-      });
-    }
-    tabs.forEach(function (btn) {
-      btn.addEventListener('click', function () { activateTab(btn); });
-    });
-    activateTab(tabs[0]);
-  }
-
-  // ── Slider ────────────────────────────────────────────────────
-  var slider = document.querySelector('.projekt-slider');
-  if (!slider) return;
-
-  var track   = slider.querySelector('.projekt-slider__track');
-  var slides  = slider.querySelectorAll('.projekt-slider__slide');
-  var prev    = slider.querySelector('.projekt-slider__prev');
-  var next    = slider.querySelector('.projekt-slider__next');
-  var current = slider.querySelector('.projekt-slider__current');
-  var n       = slides.length;
-  var idx     = 0;
-
-  function goTo(i) {
-    idx = ((i % n) + n) % n;
-    track.style.transform = 'translateX(-' + idx * 100 + '%)';
-    if (current) current.textContent = idx + 1;
-  }
-
-  if (prev) prev.addEventListener('click', function () { goTo(idx - 1); });
-  if (next) next.addEventListener('click', function () { goTo(idx + 1); });
-
-  // Tastatur
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft')  goTo(idx - 1);
-    if (e.key === 'ArrowRight') goTo(idx + 1);
-  });
-
-  // Touch-Swipe
-  var touchX = 0;
-  track.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend',   function (e) {
-    var diff = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) goTo(diff > 0 ? idx + 1 : idx - 1);
-  });
-}());
-
-// ── Video Consent ─────────────────────────────────────────
-(function () {
-  document.querySelectorAll('.projekt-video__consent').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var src = btn.getAttribute('data-src');
-      var iframe = document.createElement('iframe');
-      iframe.src = src + '?autoplay=1';
-      iframe.title = btn.closest('.projekt-video__ratio').parentElement.getAttribute('title') || 'Video';
-      iframe.setAttribute('frameborder', '0');
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-      iframe.setAttribute('allowfullscreen', '');
-      btn.replaceWith(iframe);
-    });
-  });
-}());
-</script>
+{# Alter Slider-JS aus projekt.njk entfernt — läuft jetzt global in base.njk #}
