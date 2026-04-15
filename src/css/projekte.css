@@ -379,11 +379,23 @@ body.projekt-page main {
   padding-bottom: var(--space-20);
 }
 
-.projekt-detail__body > * + * {
-  margin-top: var(--space-6);
-}
+/* ── Vertikaler Rhythmus ────────────────────────────────────────────────────
+   Tier 1 — Standard zwischen allen Elementen        → space-10  (40px)
+   Tier 2 — Vor H2 (neue Sektion)                    → space-16  (64px)
+   Tier 2 — Vor H3 (Unter-Sektion)                   → space-12  (48px)
+   Tier 3 — Nach H2/H3 (Überschrift + Inhalt nah)   → space-4/3 (16/12px)
 
-/* Fließtext: auf Lesebreite begrenzen */
+   xf-* Blöcke haben kein eigenes margin-block mehr —
+   der Body-Kontext regelt alle Abstände einheitlich.             */
+
+.projekt-detail__body > * + *       { margin-top: var(--space-24); }
+.projekt-detail__body > * + h2      { margin-top: var(--space-32); }
+.projekt-detail__body > * + h3      { margin-top: var(--space-24); }
+.projekt-detail__body > h2 + *      { margin-top: var(--space-4);  }
+.projekt-detail__body > h3 + *      { margin-top: var(--space-3);  }
+.projekt-detail__body > p  + p      { margin-top: var(--space-4);  }
+
+/* Fließtext + Headings: auf Lesebreite begrenzen */
 .projekt-detail__body > p,
 .projekt-detail__body > h2,
 .projekt-detail__body > h3,
@@ -393,21 +405,10 @@ body.projekt-page main {
   max-width: var(--container-text);
 }
 
-.projekt-detail__body h2 {
-  margin-top: var(--space-16);
-  margin-bottom: var(--space-4);
-}
-
-.projekt-detail__body h3 {
-  margin-top: var(--space-10);
-  margin-bottom: var(--space-3);
-}
-
 /* Bilder im Body-Content */
 .projekt-detail__body img {
   width: 100%;
   height: auto;
-  margin-block: var(--space-10);
 }
 
 
@@ -659,9 +660,7 @@ body.projekt-page main {
 
 /* ── xf:video ─────────────────────────────── */
 
-.xf-video {
-  margin-block: var(--space-16);
-}
+.xf-video {}
 
 .xf-video__ratio {
   position: relative;
@@ -739,9 +738,11 @@ body.projekt-page main {
 
 /* ── xf:slider ────────────────────────────── */
 
-.xf-slider {
+.xf-slider {}
+
+/* Viewport: clippt den Track, Positionsanker für Pfeile */
+.xf-slider__viewport {
   position: relative;
-  margin-block: var(--space-16);
   overflow: hidden;
 }
 
@@ -754,12 +755,16 @@ body.projekt-page main {
 .xf-slider__slide {
   flex: 0 0 100%;
   min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 
 .xf-slider__slide img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 /* Pfeile: links/rechts über dem Bild */
@@ -767,7 +772,7 @@ body.projekt-page main {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.35);
   border: none;
   color: #fff;
   width: 2.5rem;
@@ -782,47 +787,160 @@ body.projekt-page main {
 }
 
 .xf-slider__arrow:hover {
-  background: rgba(0,0,0,0.65);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 .xf-slider__arrow--prev { left: var(--space-3); }
 .xf-slider__arrow--next { right: var(--space-3); }
 
-/* Dots: mittig unter dem Bild */
-.xf-slider__dots {
+/* Linien-Indikator: aktive Linie füllt restlichen Platz */
+.xf-slider__indicators {
   display: flex;
-  justify-content: center;
-  gap: var(--space-2);
-  padding-top: var(--space-4);
+  gap: var(--space-8);
+  margin-top: var(--space-4);
 }
 
-.xf-slider__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: 1px solid var(--color-fg-muted);
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  transition: background var(--transition-base), border-color var(--transition-base);
-}
-
-.xf-slider__dot.is-active {
+.xf-slider__indicator {
+  height: 1px;
   background: var(--color-fg);
-  border-color: var(--color-fg);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+  min-width: 3rem;
+  transition: flex 0.4s ease, min-width 0.4s ease;
+}
+
+.xf-slider__indicator.is-active {
+  flex: 1;
+}
+
+/* Bildunterschrift */
+.xf-slider__caption {
+  margin-top: var(--space-3);
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  color: var(--color-fg-muted);
+  max-width: var(--container-text);
+}
+
+
+/* ── xf:link ─────────────────────────────── */
+
+.xf-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.xf-link__text {
+  font-size: var(--type-p-m-bold);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-snug);
+  color: var(--color-fg);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.xf-link__line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-fg);
+  min-width: var(--space-8);
+}
+
+.xf-link__button {
+  flex-shrink: 0;
+  display: inline-block;
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: 1;
+  color: var(--color-fg);
+  text-decoration: none;
+  border: 1px solid var(--color-fg);
+  padding: 0.5em 1em;
+  white-space: nowrap;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+.xf-link__button:hover {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  text-decoration: none;
+}
+
+@media (max-width: 639px) {
+  .xf-link__line {
+    display: none;
+  }
+
+  .xf-link {
+    justify-content: space-between;
+  }
+}
+
+
+/* ── xf:text-bild ────────────────────────── */
+
+.xf-text-bild {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* B-Variante: Bild links, Text rechts */
+.xf-text-bild--reverse .xf-text-bild__media {
+  order: -1;
+}
+
+.xf-text-bild__text h3 {
+  margin-bottom: var(--space-4);
+}
+
+.xf-text-bild__text p + p {
+  margin-top: var(--space-4);
+}
+
+.xf-text-bild__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 639px) {
+  .xf-text-bild {
+    grid-template-columns: 1fr;
+  }
+
+  .xf-text-bild--reverse .xf-text-bild__media {
+    order: 0;
+  }
 }
 
 
 /* ── xf:bild ──────────────────────────────── */
 
-.xf-bild {
-  margin-block: var(--space-16);
-}
+.xf-bild {}
 
 .xf-bild img {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.xf-bild__caption {
+  margin-top: var(--space-3);
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  line-height: var(--line-height-base);
+  color: var(--color-fg-muted);
+  max-width: var(--container-text);
 }
 
 
@@ -832,7 +950,6 @@ body.projekt-page main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-4);
-  margin-block: var(--space-16);
 }
 
 @media (max-width: 480px) {
@@ -855,7 +972,6 @@ body.projekt-page main {
 /* ── xf:callout ───────────────────────────── */
 
 .xf-callout {
-  margin-block: var(--space-16);
   padding: var(--space-6) var(--space-8);
   border-left: 2px solid var(--color-fg);
   font-size: var(--type-h3);
@@ -878,8 +994,8 @@ body.projekt-page main {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: var(--space-8);
-  margin-block: var(--space-16);
   align-items: start;
+  min-height: 450px;
 }
 
 /* track-wrap ist auf Desktop unsichtbar — nav übernimmt die Rolle */
@@ -1006,7 +1122,7 @@ body.projekt-page main {
   .xf-summary__panels {
     padding-top: 0 !important;
     transition: none;
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
   }
 
   .xf-summary__panel {

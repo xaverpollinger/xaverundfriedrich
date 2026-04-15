@@ -143,43 +143,54 @@ module.exports = function (eleventyConfig) {
     );
 
     // --- [xf:slider] ---------------------------------------------------------
-    // Rendert einen Bildslider. Pfade relativ zu /assets/images/.
+    // Bildslider mit Linien-Indikator und optionaler Bildunterschrift.
+    // Syntax:  [xf:slider bilder="a.webp, b.webp" caption="Beschreibung"]
     content = content.replace(
-      /<p>\s*\[xf:slider\s+bilder="([^"]+)"\]\s*<\/p>/g,
-      (_, bilderStr) => {
-        const bilder = bilderStr.split(",").map((b) => b.trim()).filter(Boolean);
+      /<p>\s*\[xf:slider([^\]]*)\]\s*<\/p>/g,
+      (_, attrsRaw) => {
+        const attrs = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => { attrs[key] = val; });
+        const bilder = (attrs.bilder || "").split(",").map((b) => b.trim()).filter(Boolean);
+        if (!bilder.length) return "";
         const slides = bilder
-          .map(
-            (b) =>
-              `<div class="xf-slider__slide"><img src="/assets/images/${b}" alt="" loading="lazy" decoding="async"></div>`
-          )
-          .join("\n        ");
-        const dots = bilder
-          .map(
-            (_, i) =>
-              `<button class="xf-slider__dot${i === 0 ? " is-active" : ""}" aria-label="Bild ${i + 1}"></button>`
-          )
-          .join("\n        ");
+          .map((b) => `      <div class="xf-slider__slide"><img src="/assets/images/${b}" alt="" loading="lazy" decoding="async"></div>`)
+          .join("\n");
+        const indicators = bilder
+          .map((_, i) => `      <button class="xf-slider__indicator${i === 0 ? " is-active" : ""}" aria-label="Bild ${i + 1}"></button>`)
+          .join("\n");
+        const captionHtml = attrs.caption
+          ? `\n  <p class="xf-slider__caption">${attrs.caption}</p>`
+          : "";
         return `
 <div class="xf-slider" data-slider>
-  <div class="xf-slider__track">
-        ${slides}
+  <div class="xf-slider__viewport">
+    <div class="xf-slider__track">
+${slides}
+    </div>
+    <button class="xf-slider__arrow xf-slider__arrow--prev" aria-label="Vorheriges Bild">&#8592;</button>
+    <button class="xf-slider__arrow xf-slider__arrow--next" aria-label="Nächstes Bild">&#8594;</button>
   </div>
-  <button class="xf-slider__arrow xf-slider__arrow--prev" aria-label="Vorheriges Bild">&#8592;</button>
-  <button class="xf-slider__arrow xf-slider__arrow--next" aria-label="Nächstes Bild">&#8594;</button>
-  <div class="xf-slider__dots">
-        ${dots}
-  </div>
+  <div class="xf-slider__indicators">
+${indicators}
+  </div>${captionHtml}
 </div>`;
       }
     );
 
     // --- [xf:bild] -----------------------------------------------------------
     // Einzelbild, volle Breite. Pfad relativ zu /assets/images/.
+    // Optional: caption="..." für Bildunterschrift
+    // Syntax:  [xf:bild src="ordner/bild.webp" alt="..." caption="..."]
     content = content.replace(
-      /<p>\s*\[xf:bild\s+src="([^"]+)"(?:\s+alt="([^"]*)")?\]\s*<\/p>/g,
-      (_, src, alt = "") =>
-        `<figure class="xf-bild"><img src="/assets/images/${src}" alt="${alt}" loading="lazy" decoding="async"></figure>`
+      /<p>\s*\[xf:bild([^\]]*)\]\s*<\/p>/g,
+      (_, attrsRaw) => {
+        const attrs = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => { attrs[key] = val; });
+        const captionHtml = attrs.caption
+          ? `\n  <figcaption class="xf-bild__caption">${attrs.caption}</figcaption>`
+          : "";
+        return `<figure class="xf-bild"><img src="/assets/images/${attrs.src}" alt="${attrs.alt || ""}" loading="lazy" decoding="async">${captionHtml}</figure>`;
+      }
     );
 
     // --- [xf:bild-duo] -------------------------------------------------------
@@ -198,6 +209,57 @@ module.exports = function (eleventyConfig) {
     content = content.replace(
       /<p>\s*\[xf:callout\s+text="([^"]+)"\]\s*<\/p>/g,
       (_, text) => `<blockquote class="xf-callout">${text}</blockquote>`
+    );
+
+    // --- [xf:text-bild-a] / [xf:text-bild-b] -----------------------------------
+    // Zwei-Spalten-Layout: Text + Bild.
+    //   A = Text links, Bild rechts
+    //   B = Bild links, Text rechts
+    // Syntax:  [xf:text-bild-a bild="ordner/bild.webp" h="2" headline="..." text="..."]
+    //   h="1"–"6" → Headline-Level (default: 2)
+    content = content.replace(
+      /<p>\s*\[xf:text-bild-(a|b)([^\]]*)\]\s*<\/p>/g,
+      (_, variant, attrsRaw) => {
+        const attrs = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => { attrs[key] = val; });
+        const modifier = variant === "b" ? " xf-text-bild--reverse" : "";
+        const level = Math.min(6, Math.max(1, parseInt(attrs.h || "2", 10)));
+        const tag = `h${level}`;
+        const headlineHtml = attrs.headline ? `<${tag}>${attrs.headline}</${tag}>` : "";
+        const textHtml = attrs.text ? `<p>${attrs.text}</p>` : "";
+        const alt = attrs.alt || "";
+        return `
+<div class="xf-text-bild${modifier}">
+  <div class="xf-text-bild__text">
+    ${headlineHtml}
+    ${textHtml}
+  </div>
+  <div class="xf-text-bild__media">
+    <img src="/assets/images/${attrs.bild}" alt="${alt}" loading="lazy" decoding="async">
+  </div>
+</div>`;
+      }
+    );
+
+    // --- [xf:link] ------------------------------------------------------------
+    // Highlight-Link: Beschreibungstext + Linie + Button.
+    // Syntax:  [xf:link url="https://..." label="Button-Text" text="Beschreibung" h="3"]
+    //   h="1"–"6" → Typo-Stufe für den Text (default: 3 = p-m-bold)
+    content = content.replace(
+      /<p>\s*\[xf:link([^\]]*)\]\s*<\/p>/g,
+      (_, attrsRaw) => {
+        const attrs = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => { attrs[key] = val; });
+        const url = attrs.url || "#";
+        const label = attrs.label || "Link";
+        const text = attrs.text || "";
+        return `
+<div class="xf-link">
+  <span class="xf-link__text">${text}</span>
+  <span class="xf-link__line"></span>
+  <a href="${url}" class="xf-link__button" target="_blank" rel="noopener">${label}</a>
+</div>`;
+      }
     );
 
     // --- [xf:summary] --------------------------------------------------------

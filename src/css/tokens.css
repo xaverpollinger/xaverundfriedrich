@@ -97,7 +97,7 @@
 
   /* --- Layout --- */
   --container-max:  72rem;  /* ~1152px — Seitenbreite */
-  --container-text: 44rem;  /*  ~704px — Lesebreite für Fließtext */
+  --container-text: 54rem;  /*  ~864px — Lesebreite für Fließtext */
   --nav-height:     4.5rem; /*  ~72px  — Header-Höhe (padding 24+24 + Logo 20px) */
 
 

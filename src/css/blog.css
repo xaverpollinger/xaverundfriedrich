@@ -151,11 +151,9 @@ body.post-page main {
   margin-top: var(--space-12);
 }
 
-.post__body > * + * {
-  margin-top: var(--space-6);
-}
-
-.post__body h2 {
-  margin-top: var(--space-12);
-  margin-bottom: var(--space-4);
-}
+.post__body > * + *  { margin-top: var(--space-16); }
+.post__body > * + h2 { margin-top: var(--space-20); }
+.post__body > * + h3 { margin-top: var(--space-16); }
+.post__body > h2 + * { margin-top: var(--space-4);  }
+.post__body > h3 + * { margin-top: var(--space-3);  }
+.post__body > p  + p { margin-top: var(--space-4);  }
