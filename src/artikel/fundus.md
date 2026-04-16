@@ -29,7 +29,7 @@ Die Ausgangslage unseres Service-Design-Projekts war die zunehmende "cultural fl
 
 Das Ziel von Fundus war es, einen Service zu gestalten, der diesen Reibungsverlust eliminiert und menschliche Kuration in den Mittelpunkt stellt.
 
-## Research & Synthese: Methoden zur Strategie-Findung
+[xf:heading label="Research & Synthese" title="Methoden zur Strategie-Findung"]
 
 Um unsere Annahmen zu validieren, haben wir eine qualitative Zielgruppenumfrage durchgeführt. Die Daten zeigten klar: Empfehlungen aus dem Freundeskreis besitzen die höchste Relevanz (16/21 Befragte), gleichzeitig war die Ablehnung von gesponsertem Content (16/21) und der Wunsch nach echter Übersicht (15/21) signifikant.
 
@@ -39,7 +39,9 @@ Aus diesen Insights haben wir unsere UX-Strategie abgeleitet:
 - **Customer Journey Map:** Machte sichtbar, an welchen Touchpoints Nutzer:innen abbrechen. Die wesentlichen Drop-offs entstehen beim unstrukturierten Teilen und beim Versuch, Inhalte Wochen später wiederzufinden.
 - **Service Blueprint:** Da wir manipulative Plattform-Mechaniken wie Engagement-Rankings vermeiden wollten, definierten wir klare Backstage-Regeln. So ist beispielsweise Teilen technisch vom Speichern entkoppelt (Privacy by Default).
 
-## Prototyping: Von Edge Cases zu Seamless Flows
+[xf:slider bilder="fundus/fundus-research-service-blueprint.jpg, fundus/fundus-research-customer-journey.jpg, fundus/fundus-research-value-proposition.jpg" caption="Von links: Service Blueprint, Customer Journey Map, Value Proposition Canvas"]
+
+[xf:heading label="Prototyping" title="Von Edge Cases zu Seamless Flows"]
 
 In der Konzeptionsphase haben wir auf Basis spezifischer User Personas und Szenarien Kernabläufe in Lo-Fi-Wireframes getestet und iteriert:
 
@@ -47,8 +49,17 @@ In der Konzeptionsphase haben wir auf Basis spezifischer User Personas und Szena
 - **Retrieval (Persona Jonas):** Für eine pragmatische Nutzung brauchte es extrem schnelle Filter. Wir implementierten eine Inline-Tag-Suche und einen strikten Zeit-Filter (neueste zuerst), um die "Search vs. Algorithm"-Problematik aufzulösen.
 - **The Empty State (Persona Aylin):** Ohne algorithmischen Feed drohte neuen Nutzer:innen ein kalter Start. Um diesen zu überwinden, konzipierten wir Onboarding-Flows, die den Import bestehender Bookmarks aus anderen Systemen erlauben.
 
-[xf:text-bild-a bild="fundus/fundus-placeholder.png" h="2" headline="UI & Visual Design: Form follows Purpose" text="Im Visual Design haben wir aktuelle UI-Trends kritisch evaluiert. Ein exploriertes Liquid-Glass-/Neomorphism-Design wurde bewusst verworfen, da es visuell zu nah an den datengetriebenen Plattformen lag, von denen wir uns differenzieren wollten. Stattdessen entwickelten wir ein Interface, das auf visueller Ruhe basiert: Empfehlungen werden als eigenständige Objekte (Spielkarten-Metapher) behandelt. Ein warmer Off-White-Ton mit neongrünem Akzent schafft eine klare Identität ohne visuelle Reizüberflutung."]
+[xf:heading label="UI & Visual Design" title="Form follows Purpose"]
 
-## Business Integration: UX bis ins Geschäftsmodell
+Jede Designentscheidung bei Fundus ist eine Positionierungsentscheidung. Das visuelle System muss kommunizieren, was der Service ist – und was er explizit nicht ist. Trending Ästhetiken wie "Liquid Glass" oder Neomorphism wurden deshalb früh verworfen: Sie sind visuell untrennbar mit den aufmerksamkeitsökonomischen Plattformen verbunden, von denen wir uns differenzieren wollen. Wer anders wirken will, muss anders aussehen.
 
-Als Service Designer wissen wir, dass sich das Geschäftsmodell direkt auf die User Experience auswirkt. Um den "Gratis-Kultur"-Dark-Patterns aus dem Weg zu gehen, haben wir ein dreistufiges, transparentes Preismodell (Free, Plus, Lifetime) kalkuliert. Ein Planspiel (155.000 € Kapitalbedarf, Break-Even bei 4.500 Abos) validierte, dass der Service rein durch seinen funktionalen Mehrwert und ohne den Verkauf von Nutzerdaten operieren kann.
+Das Ergebnis ist ein Interface, das visuelle Ruhe als Produktversprechen begreift:
+
+- **Karten-Logik:** Die einzelne Empfehlung wird als wertiges, greifbares Objekt behandelt – nicht als Feed-Item in einem endlosen Strom. Die Spielkarten-Metapher schafft eine haptische Qualität, die Kuration als aktiven, bewussten Akt erfahrbar macht.
+- **Farbgebung & Typografie:** Ein warmer Off-White-Ton (#FBF7F7) bricht den klinischen Tech-Look. Das Neongrün (#C3FFB3) funktioniert als digitaler Textmarker – Relevanz wird manuell gesetzt, nicht algorithmisch berechnet. Fira Mono verleiht der Identität archivarischen Charakter; SF Pro hält die UI-Navigation klar und lesbar. Die Trennung ist bewusst: Identität und Funktion sprechen verschiedene Sprachen.
+
+[xf:bild src="fundus/fundus-ui-mockup.png" alt="Fundus UI Mockup" caption="UI-Mockup: Kartenbasierte Oberfläche mit Off-White-Hintergrund und neongrünem Akzent"]
+
+[xf:heading label="Business Integration" title="UX bis ins Geschäftsmodell"]
+
+Ein gutes Nutzererlebnis endet nicht beim Interface, sondern schließt das Geschäftsmodell mit ein. Um typische Dark Patterns von vermeintlichen "Gratis-Apps" zu vermeiden, basiert das Konzept auf einem transparenten Preismodell (Free, Plus, Lifetime). Um zu prüfen, ob das realistisch ist, haben wir das Ganze in einem Planspiel kalkuliert: Bei einem Kapitalbedarf von 155.000 € und einem Break-Even von 4.500 Abos zeigte sich, dass sich der Service allein durch seinen Mehrwert finanzieren lässt – ganz ohne den Verkauf von Nutzerdaten.

@@ -138,6 +138,20 @@
       </svg>
     </button>
 
+    {# Lightbox — für Slider-Bilder #}
+    <div class="xf-lightbox" id="xf-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Bild-Vollansicht">
+      <button class="xf-lightbox__close" aria-label="Schließen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <button class="xf-lightbox__nav xf-lightbox__nav--prev" aria-label="Vorheriges Bild">&#8592;</button>
+      <div class="xf-lightbox__stage">
+        <img class="xf-lightbox__img" src="" alt="">
+      </div>
+      <button class="xf-lightbox__nav xf-lightbox__nav--next" aria-label="Nächstes Bild">&#8594;</button>
+    </div>
+
     {# Custom Cursor — auf allen Seiten aktiv #}
     <div id="cursorDot" aria-hidden="true"></div>
     <script src="/js/cursor.js" defer></script>
@@ -348,6 +362,77 @@
         });
       });
 
+    }());
+    </script>
+
+    {# ── Lightbox ─────────────────────────────────────────────────────────────
+       Öffnet Slider-Bilder in Vollansicht. Tastatur, Swipe und ESC unterstützt. #}
+    <script>
+    (function () {
+      var lb      = document.getElementById('xf-lightbox');
+      if (!lb) return;
+      var lbImg   = lb.querySelector('.xf-lightbox__img');
+      var lbClose = lb.querySelector('.xf-lightbox__close');
+      var lbPrev  = lb.querySelector('.xf-lightbox__nav--prev');
+      var lbNext  = lb.querySelector('.xf-lightbox__nav--next');
+      var images  = [];
+      var idx     = 0;
+
+      function open(imgs, i) {
+        images = imgs;
+        idx    = i;
+        lbImg.src = images[idx];
+        lbImg.alt = '';
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        lbPrev.style.display = images.length > 1 ? '' : 'none';
+        lbNext.style.display = images.length > 1 ? '' : 'none';
+        lbClose.focus();
+      }
+
+      function close() {
+        lb.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+      }
+
+      function prev() { idx = ((idx - 1) + images.length) % images.length; lbImg.src = images[idx]; }
+      function next() { idx = (idx + 1) % images.length; lbImg.src = images[idx]; }
+
+      lbClose.addEventListener('click', close);
+      lbPrev.addEventListener('click', function (e) { e.stopPropagation(); prev(); });
+      lbNext.addEventListener('click', function (e) { e.stopPropagation(); next(); });
+
+      // Klick auf Backdrop schließt
+      lb.addEventListener('click', function (e) {
+        if (e.target === lb || e.target === lbImg.parentElement) close();
+      });
+
+      // Tastatur
+      document.addEventListener('keydown', function (e) {
+        if (lb.getAttribute('aria-hidden') === 'true') return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  prev();
+        if (e.key === 'ArrowRight') next();
+      });
+
+      // Touch-Swipe
+      var touchX = 0;
+      lb.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', function (e) {
+        var diff = touchX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) { diff > 0 ? next() : prev(); }
+      });
+
+      // Slider-Bilder registrieren
+      document.querySelectorAll('[data-slider]').forEach(function (slider) {
+        var slides = Array.from(slider.querySelectorAll('.xf-slider__slide img'));
+        var srcs   = slides.map(function (img) { return img.src; });
+        slides.forEach(function (img, i) {
+          img.style.cursor = 'zoom-in';
+          img.addEventListener('click', function () { open(srcs, i); });
+        });
+      });
     }());
     </script>
 

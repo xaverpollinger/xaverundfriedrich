@@ -127,7 +127,7 @@ module.exports = function (eleventyConfig) {
     content = content.replace(
       /<p>\s*\[xf:video\s+url="([^"]+)"\]\s*<\/p>/g,
       (_, url) => `
-<div class="xf-video">
+<div class="xf-video xf-block">
   <div class="xf-video__ratio">
     <button class="xf-video__consent" data-src="${url}" aria-label="Video laden">
       <span class="xf-video__play">
@@ -162,7 +162,7 @@ module.exports = function (eleventyConfig) {
           ? `\n  <p class="xf-slider__caption">${attrs.caption}</p>`
           : "";
         return `
-<div class="xf-slider" data-slider>
+<div class="xf-slider xf-block" data-slider>
   <div class="xf-slider__viewport">
     <div class="xf-slider__track">
 ${slides}
@@ -189,7 +189,7 @@ ${indicators}
         const captionHtml = attrs.caption
           ? `\n  <figcaption class="xf-bild__caption">${attrs.caption}</figcaption>`
           : "";
-        return `<figure class="xf-bild"><img src="/assets/images/${attrs.src}" alt="${attrs.alt || ""}" loading="lazy" decoding="async">${captionHtml}</figure>`;
+        return `<figure class="xf-bild xf-block"><img src="/assets/images/${attrs.src}" alt="${attrs.alt || ""}" loading="lazy" decoding="async">${captionHtml}</figure>`;
       }
     );
 
@@ -198,7 +198,7 @@ ${indicators}
     content = content.replace(
       /<p>\s*\[xf:bild-duo\s+links="([^"]+)"\s+rechts="([^"]+)"\]\s*<\/p>/g,
       (_, links, rechts) => `
-<div class="xf-bild-duo">
+<div class="xf-bild-duo xf-block">
   <figure class="xf-bild-duo__item"><img src="/assets/images/${links}" alt="" loading="lazy" decoding="async"></figure>
   <figure class="xf-bild-duo__item"><img src="/assets/images/${rechts}" alt="" loading="lazy" decoding="async"></figure>
 </div>`
@@ -208,7 +208,7 @@ ${indicators}
     // Hervorgehobene Textbox / Zitat.
     content = content.replace(
       /<p>\s*\[xf:callout\s+text="([^"]+)"\]\s*<\/p>/g,
-      (_, text) => `<blockquote class="xf-callout">${text}</blockquote>`
+      (_, text) => `<blockquote class="xf-callout xf-block">${text}</blockquote>`
     );
 
     // --- [xf:text-bild-a] / [xf:text-bild-b] -----------------------------------
@@ -229,7 +229,7 @@ ${indicators}
         const textHtml = attrs.text ? `<p>${attrs.text}</p>` : "";
         const alt = attrs.alt || "";
         return `
-<div class="xf-text-bild${modifier}">
+<div class="xf-text-bild xf-block${modifier}">
   <div class="xf-text-bild__text">
     ${headlineHtml}
     ${textHtml}
@@ -254,10 +254,30 @@ ${indicators}
         const label = attrs.label || "Link";
         const text = attrs.text || "";
         return `
-<div class="xf-link">
+<div class="xf-link xf-block">
   <span class="xf-link__text">${text}</span>
   <span class="xf-link__line"></span>
   <a href="${url}" class="xf-link__button" target="_blank" rel="noopener">${label}</a>
+</div>`;
+      }
+    );
+
+    // --- [xf:heading] --------------------------------------------------------
+    // Eyebrow-Label klein + Hauptüberschrift groß darunter.
+    // Ersetzt das "## Label: Beschreibung"-Muster durch ein zweistufiges Layout.
+    // Syntax:  [xf:heading label="Research & Synthese" title="Methoden zur Strategie-Findung"]
+    //          [xf:heading h="3" label="..." title="..."]
+    content = content.replace(
+      /<p>\s*\[xf:heading([^\]]*)\]\s*<\/p>/g,
+      (_, attrsRaw) => {
+        const attrs = {};
+        attrsRaw.replace(/(\w+)="([^"]*)"/g, (m, key, val) => { attrs[key] = val; });
+        const level = Math.min(6, Math.max(1, parseInt(attrs.h || "2", 10)));
+        const tag = `h${level}`;
+        return `
+<div class="xf-heading xf-block">
+  <span class="xf-heading__label">${attrs.label || ""}</span>
+  <${tag} class="xf-heading__title">${attrs.title || ""}</${tag}>
 </div>`;
       }
     );
@@ -303,7 +323,7 @@ ${indicators}
           .join("\n");
 
         return `
-<div class="xf-summary" data-summary>
+<div class="xf-summary xf-block" data-summary>
   <div class="xf-summary__track-wrap">
     <nav class="xf-summary__track" aria-label="Projektübersicht">
 ${tabs}

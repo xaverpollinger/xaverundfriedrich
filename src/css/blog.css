@@ -151,9 +151,27 @@ body.post-page main {
   margin-top: var(--space-12);
 }
 
-.post__body > * + *  { margin-top: var(--space-16); }
-.post__body > * + h2 { margin-top: var(--space-20); }
-.post__body > * + h3 { margin-top: var(--space-16); }
+/* Textfluss: eng zusammengehörige Elemente */
+.post__body > * + *  { margin-top: var(--space-4);  }
+.post__body > p  + p { margin-top: var(--space-4);  }
+
+/* Sektionsbrüche: vor Überschriften */
+.post__body > * + h2 { margin-top: var(--space-32); }
+.post__body > * + h3 { margin-top: var(--space-24); }
+
+/* Nach Überschriften: nah am Inhalt */
 .post__body > h2 + * { margin-top: var(--space-4);  }
 .post__body > h3 + * { margin-top: var(--space-3);  }
-.post__body > p  + p { margin-top: var(--space-4);  }
+
+/* Module (xf-block): großer Abstand davor und danach */
+.post__body > * + .xf-block  { margin-top: var(--space-24); }
+.post__body > .xf-block + *  { margin-top: var(--space-24); }
+
+/* Ausnahme: Überschrift direkt nach Modul */
+.post__body > .xf-block + h2 { margin-top: var(--space-32); }
+.post__body > .xf-block + h3 { margin-top: var(--space-24); }
+
+/* xf:heading verhält sich wie h2: großer Abstand davor, eng danach */
+.post__body > * + .xf-heading  { margin-top: var(--space-32); }
+.post__body > .xf-heading + *  { margin-top: var(--space-4);  }
+.post__body > .xf-heading + h3 { margin-top: var(--space-24); }
