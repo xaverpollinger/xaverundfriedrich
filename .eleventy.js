@@ -110,7 +110,7 @@ module.exports = function (eleventyConfig) {
   //   [xf:callout text="Kernaussage oder Zitat"]
   // ---------------------------------------------------------------------------
   eleventyConfig.addTransform("xf-shortcodes", function (content, outputPath) {
-    if (!outputPath?.endsWith(".html")) return content;
+    if (typeof outputPath !== "string" || !outputPath.endsWith(".html")) return content;
 
     // Pre-Processing: markdown-it encodiert " zu &quot; in Absätzen.
     // Alle Shortcode-Muster innerhalb von <p>[xf:...]</p> vorab dekodieren,
