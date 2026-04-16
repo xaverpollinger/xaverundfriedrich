@@ -1,4 +1,5 @@
 ---
+draft: true
 typ: projekt
 title: BLOC – Dein interaktiver Erlebnisguide
 description: Ein iterativ entwickeltes App-Konzept zur spielerischen Entdeckung neuer Hobbys, das komplexe User Journeys durch ein motivierendes "Skill-Tree"-System und eine reduzierte Baustein-Optik vereinfacht.

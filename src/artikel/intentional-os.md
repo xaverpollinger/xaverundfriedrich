@@ -1,4 +1,5 @@
 ---
+draft: true
 typ: projekt
 title: Intentional OS
 description: Ein radikal minimalistisches Betriebssystem-Konzept, das durch ein zentrales Chat-Interface bewusste Reibung erzeugt, um kognitive Belastung zu reduzieren und maximale Fokussierung (Maximum Intent) zu fördern.

@@ -1,4 +1,5 @@
 ---
+draft: true
 typ: projekt
 title: Demo Modulübersicht
 description: Dieses Beispielprojekt zeigt alle verfügbaren Content-Module im Zusammenspiel. Jedes Modul ist über einfache Markdown-Shortcodes steuerbar und lässt sich frei kombinieren.

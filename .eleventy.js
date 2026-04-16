@@ -85,7 +85,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("projekte", (api) =>
     api
       .getFilteredByGlob("src/artikel/*.md")
-      .filter((item) => item.data.typ === "projekt")
+      .filter((item) => item.data.typ === "projekt" && !item.data.draft)
       .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0))
   );
 
@@ -94,7 +94,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addCollection("blog", (api) =>
     api
       .getFilteredByGlob("src/artikel/*.md")
-      .filter((item) => item.data.typ === "blog")
+      .filter((item) => item.data.typ === "blog" && !item.data.draft)
       .sort((a, b) => b.date - a.date)
   );
 

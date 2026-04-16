@@ -1,4 +1,5 @@
 ---
+draft: true
 typ: projekt
 title: Eckplatz Corporate Design
 description: Entwicklung einer modularen, digital-nativen Markenidentität, die als skalierbares Design-System und Fundament für zukünftige UI/UX-Implementierungen fungiert.

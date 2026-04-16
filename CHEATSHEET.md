@@ -4,6 +4,22 @@ Alle Content-Module, Markdown-Syntax und Typografie-Tokens auf einen Blick.
 
 ---
 
+## Entwurfsmodus
+
+Ein Artikel wird nicht gebaut und erscheint nicht in Listen, solange `draft: true` im Frontmatter gesetzt ist.
+
+```yaml
+---
+typ: projekt
+draft: true
+title: Mein Projekt
+---
+```
+
+Zum Veröffentlichen die Zeile entfernen oder auf `draft: false` setzen.
+
+---
+
 ## Typografie
 
 ### Schrift
