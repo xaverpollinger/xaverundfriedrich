@@ -117,61 +117,36 @@
 
 
 /* --- Blog-Post --- */
+/* Body-Spacing wird von projekte.css via .projekt-detail__body übernommen. */
 
-/* Gleiches padding-top wie projekt-page */
 body.post-page main {
   padding-top: var(--space-16);
 }
 
-.post {
-  max-width: var(--container-max);
-}
-
-.post__header {
+.post-header {
+  padding-block: var(--space-16) var(--space-12);
+  max-width: var(--container-text);
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  margin-bottom: var(--space-12);
+  gap: var(--space-4);
 }
 
-.post__date {
+.post-header__meta {
+  font-size: var(--type-p-xs);
+  font-weight: var(--weight-light);
+  font-style: italic;
   color: var(--color-fg-muted);
   letter-spacing: var(--letter-spacing-wide);
-  text-transform: uppercase;
 }
 
-.post__lead {
-  max-width: var(--container-text);
+.post-header__title {
+  font-size: var(--type-h1);
+  font-weight: var(--weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
 
-.post__body {
-  max-width: var(--container-text);
-  margin-inline-start: 0;
-  margin-inline-end: auto;
-  margin-top: var(--space-12);
+.post-header__desc {
+  max-width: 100%;
 }
-
-/* Textfluss: eng zusammengehörige Elemente */
-.post__body > * + *  { margin-top: var(--space-4);  }
-.post__body > p  + p { margin-top: var(--space-4);  }
-
-/* Sektionsbrüche: vor Überschriften */
-.post__body > * + h2 { margin-top: var(--space-32); }
-.post__body > * + h3 { margin-top: var(--space-24); }
-
-/* Nach Überschriften: nah am Inhalt */
-.post__body > h2 + * { margin-top: var(--space-4);  }
-.post__body > h3 + * { margin-top: var(--space-3);  }
-
-/* Module (xf-block): großer Abstand davor und danach */
-.post__body > * + .xf-block  { margin-top: var(--space-24); }
-.post__body > .xf-block + *  { margin-top: var(--space-24); }
-
-/* Ausnahme: Überschrift direkt nach Modul */
-.post__body > .xf-block + h2 { margin-top: var(--space-32); }
-.post__body > .xf-block + h3 { margin-top: var(--space-24); }
-
-/* xf:heading verhält sich wie h2: großer Abstand davor, eng danach */
-.post__body > * + .xf-heading  { margin-top: var(--space-32); }
-.post__body > .xf-heading + *  { margin-top: var(--space-4);  }
-.post__body > .xf-heading + h3 { margin-top: var(--space-24); }

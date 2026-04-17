@@ -5,13 +5,10 @@ title: Eckplatz Corporate Design
 description: Entwicklung einer modularen, digital-nativen Markenidentität, die als skalierbares Design-System und Fundament für zukünftige UI/UX-Implementierungen fungiert.
 year: 2024
 client: Eckplatz (Konzept)
-role: Konzept, Corporate Design, Design System
+role: Corporate Design, Design System
 tags:
-  - Corporate Design
-  - Design System
   - Branding
   - Atomic Design
-  - Visual Systems
 cover: /assets/images/eckplatz/eckplatz-corporate-design-logo-cover.webp
 ---
 

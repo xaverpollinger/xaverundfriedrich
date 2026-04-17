@@ -369,6 +369,7 @@ body.projekt-page main {
 }
 
 
+
 /* --- Body: Markdown-Content ---
    Kein globales max-width — Block-Shortcodes (xf:summary, xf:slider etc.)
    können volle Container-Breite nutzen. Fließtext-Elemente werden einzeln
@@ -773,7 +774,7 @@ body.projekt-page main {
 .xf-slider__slide {
   flex: 0 0 100%;
   min-width: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--slide-aspect, 16 / 9);
   overflow: hidden;
 }
 

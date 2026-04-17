@@ -5,11 +5,8 @@ description: Plattformen leiten unseren Geschmack zunehmend aus Interaktionsdate
 year: 2026
 role: Service Design, UX/UI Design
 tags:
-  - Service Design
-  - UX/UI Design
   - App-Konzept
   - Ethical Design
-  - Kuration
   - Social Friction
   - Aufmerksamkeitsökonomie
 cover: /assets/images/fundus/fundus-cover.webp

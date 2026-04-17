@@ -161,8 +161,11 @@ module.exports = function (eleventyConfig) {
         const captionHtml = attrs.caption
           ? `\n  <p class="xf-slider__caption">${attrs.caption}</p>`
           : "";
+        const aspectStyle = attrs.aspect
+          ? ` style="--slide-aspect: ${attrs.aspect}"`
+          : "";
         return `
-<div class="xf-slider xf-block" data-slider>
+<div class="xf-slider xf-block" data-slider${aspectStyle}>
   <div class="xf-slider__viewport">
     <div class="xf-slider__track">
 ${slides}

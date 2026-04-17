@@ -1,37 +1,31 @@
 ---
 layout: base.njk
-bodyClass: page blog-page
+bodyClass: page post-page
 ---
 
-{# ── Platzhalter-Layout ─────────────────────────────────────────────────────
-   Dieses Layout wird durch das neue Design ersetzt.
-   Body-Content inkl. [xf:...]-Shortcodes wird bereits korrekt gerendert.      #}
-
 <div class="container">
-  <article class="blog-post">
+  <article class="projekt-detail">
 
-    {# ── Meta-Header ── #}
-    <header class="blog-post__header">
-      <h1>{{ title }}</h1>
-      {% if date %}
-        <time datetime="{{ date | dateISO }}">{{ date | dateReadable }}</time>
-      {% endif %}
+    {# ── Header: Meta-Zeile + Titel ── #}
+    <header class="post-header">
+      <p class="post-header__meta">
+        {%- set metaParts = [] -%}
+        {%- if date -%}{%- set metaParts = metaParts.concat([date | dateReadable]) -%}{%- endif -%}
+        {%- if tags and tags.length -%}{%- set metaParts = metaParts.concat(tags) -%}{%- endif -%}
+        {{ metaParts | join(" · ") }}
+      </p>
+      <h1 class="post-header__title">{{ title }}</h1>
       {% if description %}
-        <p>{{ description }}</p>
-      {% endif %}
-      {% if tags and tags.length %}
-        <div>
-          {% for tag in tags %}
-            <span class="blog-tag">{{ tag }}</span>
-          {% endfor %}
-        </div>
+        <p class="post-header__desc p-m-bold">{{ description }}</p>
       {% endif %}
     </header>
 
-    {# ── Body: Markdown + transformierte Shortcode-Blöcke ── #}
-    <div class="blog-post__body">
-      {{ content | safe }}
-    </div>
+    {# ── Body: Markdown + transformierte [xf:...]-Shortcode-Blöcke ── #}
+    {% if content | trim %}
+      <div class="projekt-detail__body">
+        {{ content | safe }}
+      </div>
+    {% endif %}
 
   </article>
 </div>

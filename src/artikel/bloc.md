@@ -4,13 +4,10 @@ typ: projekt
 title: BLOC – Dein interaktiver Erlebnisguide
 description: Ein iterativ entwickeltes App-Konzept zur spielerischen Entdeckung neuer Hobbys, das komplexe User Journeys durch ein motivierendes "Skill-Tree"-System und eine reduzierte Baustein-Optik vereinfacht.
 year: 2024
-role: UX Research, Konzept, UI Design
+role: UX Research, UI Design
 tags:
-  - UI/UX Design
   - App-Konzept
-  - User Research
   - Gamification
-  - Iteratives Design
 cover: /assets/images/bloc/bloc-erlebnisguide-cover.webp
 ---
 
