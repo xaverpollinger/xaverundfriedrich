@@ -3,7 +3,7 @@
 //   true  → Passwortabfrage aktiv, Unbefugte sehen die Baustellen-Seite
 //   false → Seite öffentlich erreichbar (für Live-Gang hier auf false setzen)
 // ─────────────────────────────────────────────────────────────────────────────
-var XF_DEV_MODE = true;
+var XF_DEV_MODE = false;
 var XF_PASSWORD = 'Audi1499';
 
 // ─── Ab hier nichts mehr anfassen ────────────────────────────────────────────
