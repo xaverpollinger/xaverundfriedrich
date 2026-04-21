@@ -115,10 +115,32 @@ body.home .site-footer {
   gap: var(--space-3);
 }
 
-.home-card__actions .about-link svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
+.home-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-6);
+  text-decoration: none;
+  color: var(--color-fg);
+  font-size: var(--type-p-s);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.home-card__btn:hover {
+  border-color: var(--color-fg);
+}
+
+.home-card__btn--primary {
+  border-color: var(--color-fg);
+  font-weight: var(--weight-medium);
+}
+
+.home-card__btn--primary:hover {
+  background-color: var(--color-fg);
+  color: var(--color-bg);
 }
 
 /* Footer: volle Kartenbreite, border-top wie site-footer */
