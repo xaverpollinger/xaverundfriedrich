@@ -864,6 +864,11 @@ body.projekt-page main {
   flex-shrink: 0;
 }
 
+.xf-link__text--h1 { font-size: var(--type-h1); }
+.xf-link__text--h2 { font-size: var(--type-h2); }
+.xf-link__text--h3 { font-size: var(--type-h3); }
+.xf-link__text--h4 { font-size: var(--type-p-m-bold); }
+
 .xf-link__line {
   flex: 1;
   height: 1px;

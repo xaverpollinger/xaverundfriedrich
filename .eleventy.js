@@ -256,9 +256,11 @@ ${indicators}
         const url = attrs.url || "#";
         const label = attrs.label || "Link";
         const text = attrs.text || "";
+        const level = attrs.h ? Math.min(6, Math.max(1, parseInt(attrs.h, 10))) : null;
+        const sizeClass = level ? ` xf-link__text--h${level}` : "";
         return `
 <div class="xf-link xf-block">
-  <span class="xf-link__text">${text}</span>
+  <span class="xf-link__text${sizeClass}">${text}</span>
   <span class="xf-link__line"></span>
   <a href="${url}" class="xf-link__button" target="_blank" rel="noopener">${label}</a>
 </div>`;
